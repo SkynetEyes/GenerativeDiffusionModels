@@ -46,15 +46,14 @@ import diffusers
 from diffusers import (
     AutoencoderKL,
     BitsAndBytesConfig,
-    FlowMatchEulerDiscreteScheduler,
-    FluxPipeline,
-    FluxTransformer2DModel,
+    DDPMScheduler,
+    DiffusionPipeline,
+    StableDiffusionXLPipeline,
+    UNet2DConditionModel,  # ← MUDA: UNet em vez de Transformer
 )
 from diffusers.optimization import get_scheduler
 from diffusers.training_utils import (
     cast_training_params,
-    compute_density_for_timestep_sampling,
-    compute_loss_weighting_for_sd3,
     free_memory,
 )
 from diffusers.utils import (
@@ -288,10 +287,23 @@ def parse_args(input_args=None):
     )
 
     parser.add_argument(
+        "--width",
+        type=int,
+        default=512,
+        help="(Ignorado para SDXL, use --resolution) Largura da imagem.",
+    )
+    parser.add_argument(
+        "--height",
+        type=int,
+        default=512,
+        help="(Ignorado para SDXL, use --resolution) Altura da imagem.",
+    )
+
+    parser.add_argument(
         "--guidance_scale",
         type=float,
-        default=3.5,
-        help="the FLUX.1 dev variant is a guidance distilled model",
+        default=1.0,
+        help="(Ignorado para SDXL training) Escala de guidance.",
     )
 
     parser.add_argument(
@@ -545,9 +557,40 @@ class DreamBoothDataset(Dataset):
         prompt_embeds = embeddings[0]
         pooled_prompt_embeds = embeddings[1]
         text_ids = embeddings[2]
-        prompt_embeds = np.array(prompt_embeds).reshape(self.max_sequence_length, 4096)
-        pooled_prompt_embeds = np.array(pooled_prompt_embeds).reshape(768)
-        text_ids = np.array(text_ids).reshape(77, 3)
+        
+        # Converter listas para arrays
+        if isinstance(prompt_embeds, list):
+            prompt_embeds = np.array(prompt_embeds)
+        if isinstance(pooled_prompt_embeds, list):
+            pooled_prompt_embeds = np.array(pooled_prompt_embeds)
+        if isinstance(text_ids, list):
+            text_ids = np.array(text_ids)
+        
+        # Converter objetos numpy arrays a arrays reais
+        # Se temos um array de objetos (dtype=object), converter para float
+        if prompt_embeds.dtype == object:
+            prompt_embeds = np.array([x for x in prompt_embeds], dtype=np.float32)
+        if pooled_prompt_embeds.dtype == object:
+            pooled_prompt_embeds = np.array([x for x in pooled_prompt_embeds], dtype=np.float32)
+        if text_ids.dtype == object:
+            text_ids = np.array([x for x in text_ids], dtype=np.float32)
+        
+        # Remover dimensão de batch se presente (shape será [1, 77, 2048] -> [77, 2048])
+        if prompt_embeds.ndim == 3 and prompt_embeds.shape[0] == 1:
+            prompt_embeds = prompt_embeds[0]
+        if pooled_prompt_embeds.ndim == 2 and pooled_prompt_embeds.shape[0] == 1:
+            pooled_prompt_embeds = pooled_prompt_embeds[0]
+        if text_ids.ndim == 3 and text_ids.shape[0] == 1:
+            text_ids = text_ids[0]
+        
+        # Fazer reshape se necessário (fallback para dimensões 1D)
+        if prompt_embeds.ndim == 1:
+            prompt_embeds = prompt_embeds.reshape(self.max_sequence_length, -1)
+        if pooled_prompt_embeds.ndim == 1:
+            pooled_prompt_embeds = pooled_prompt_embeds.reshape(-1)
+        if text_ids.ndim == 1:
+            text_ids = text_ids.reshape(self.max_sequence_length, -1)
+        
         return torch.from_numpy(prompt_embeds), torch.from_numpy(pooled_prompt_embeds), torch.from_numpy(text_ids)
 
     def map_image_hash_embedding(self, data_df_path):
@@ -573,7 +616,7 @@ def collate_fn(examples):
     pixel_values = pixel_values.to(memory_format=torch.contiguous_format).float()
     prompt_embeds = torch.stack(prompt_embeds)
     pooled_prompt_embeds = torch.stack(pooled_prompt_embeds)
-    text_ids = torch.stack(text_ids)[0]  # just 2D tensor
+    text_ids = torch.stack(text_ids)
 
     batch = {
         "pixel_values": pixel_values,
@@ -647,7 +690,7 @@ def main(args):
             ).repo_id
 
     # Load scheduler and models
-    noise_scheduler = FlowMatchEulerDiscreteScheduler.from_pretrained(
+    noise_scheduler = DDPMScheduler.from_pretrained(
         args.pretrained_model_name_or_path, subfolder="scheduler"
     )
     noise_scheduler_copy = copy.deepcopy(noise_scheduler)
@@ -662,32 +705,33 @@ def main(args):
         bnb_4bit_compute_dtype = torch.float16
     elif args.mixed_precision == "bf16":
         bnb_4bit_compute_dtype = torch.bfloat16
+    
     if args.quantized_model_path is not None:
-        transformer = FluxTransformer2DModel.from_pretrained(
-            args.quantized_model_path,
-            subfolder="transformer",
-            revision=args.revision,
-            variant=args.variant,
-            torch_dtype=bnb_4bit_compute_dtype,
-        )
+            unet = UNet2DConditionModel.from_pretrained(
+                args.quantized_model_path,
+                subfolder="unet",  # ← MUDA: "unet" em vez de "transformer"
+                revision=args.revision,
+                variant=args.variant,
+                torch_dtype=bnb_4bit_compute_dtype,
+            )
     else:
         nf4_config = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_quant_type="nf4",
             bnb_4bit_compute_dtype=bnb_4bit_compute_dtype,
         )
-        transformer = FluxTransformer2DModel.from_pretrained(
+        unet = UNet2DConditionModel.from_pretrained(
             args.pretrained_model_name_or_path,
-            subfolder="transformer",
+            subfolder="unet",  # ← MUDA: "unet" em vez de "transformer"
             revision=args.revision,
             variant=args.variant,
             quantization_config=nf4_config,
             torch_dtype=bnb_4bit_compute_dtype,
         )
-    transformer = prepare_model_for_kbit_training(transformer, use_gradient_checkpointing=False)
+    unet = prepare_model_for_kbit_training(unet, use_gradient_checkpointing=False)  # ← MUDA: unet em vez de transformer
 
     # We only train the additional adapter LoRA layers
-    transformer.requires_grad_(False)
+    unet.requires_grad_(False)
     vae.requires_grad_(False)
 
     # For mixed precision training we cast all non-trainable weights (vae, text_encoder and transformer) to half-precision
@@ -706,16 +750,16 @@ def main(args):
 
     vae.to(accelerator.device, dtype=weight_dtype)
     if args.gradient_checkpointing:
-        transformer.enable_gradient_checkpointing()
+        unet.enable_gradient_checkpointing()
 
     # now we will add new LoRA weights to the attention layers
-    transformer_lora_config = LoraConfig(
+    unet_lora_config = LoraConfig(
         r=args.rank,
         lora_alpha=args.rank,
         init_lora_weights="gaussian",
         target_modules=["to_k", "to_q", "to_v", "to_out.0"],
     )
-    transformer.add_adapter(transformer_lora_config)
+    unet.add_adapter(unet_lora_config)
 
     def unwrap_model(model):
         model = accelerator.unwrap_model(model)
@@ -725,12 +769,12 @@ def main(args):
     # create custom saving & loading hooks so that `accelerator.save_state(...)` serializes in a nice format
     def save_model_hook(models, weights, output_dir):
         if accelerator.is_main_process:
-            transformer_lora_layers_to_save = None
+            unet_lora_layers_to_save = None
 
             for model in models:
-                if isinstance(unwrap_model(model), type(unwrap_model(transformer))):
+                if isinstance(unwrap_model(model), type(unwrap_model(unet))):
                     model = unwrap_model(model)
-                    transformer_lora_layers_to_save = get_peft_model_state_dict(model)
+                    unet_lora_layers_to_save = get_peft_model_state_dict(model)
                 else:
                     raise ValueError(f"unexpected save model: {model.__class__}")
 
@@ -738,28 +782,28 @@ def main(args):
                 if weights:
                     weights.pop()
 
-            FluxPipeline.save_lora_weights(
+            StableDiffusionXLPipeline.save_lora_weights(
                 output_dir,
-                transformer_lora_layers=transformer_lora_layers_to_save,
+                unet_lora_layers=unet_lora_layers_to_save,
                 text_encoder_lora_layers=None,
             )
 
     def load_model_hook(models, input_dir):
-        transformer_ = None
+        unet_ = None  # ← MUDA
 
         if not accelerator.distributed_type == DistributedType.DEEPSPEED:
             while len(models) > 0:
                 model = models.pop()
 
-                if isinstance(model, type(unwrap_model(transformer))):
-                    transformer_ = model
+                if isinstance(model, type(unwrap_model(unet))):  # ← MUDA
+                    unet_ = model  # ← MUDA
                 else:
                     raise ValueError(f"unexpected save model: {model.__class__}")
         else:
             if args.quantized_model_path is not None:
-                transformer_ = FluxTransformer2DModel.from_pretrained(
+                unet_ = UNet2DConditionModel.from_pretrained(  # ← MUDA
                     args.quantized_model_path,
-                    subfolder="transformer",
+                    subfolder="unet",  # ← MUDA
                     revision=args.revision,
                     variant=args.variant,
                     torch_dtype=bnb_4bit_compute_dtype,
@@ -770,26 +814,25 @@ def main(args):
                     bnb_4bit_quant_type="nf4",
                     bnb_4bit_compute_dtype=bnb_4bit_compute_dtype,
                 )
-                transformer_ = FluxTransformer2DModel.from_pretrained(
+                unet_ = UNet2DConditionModel.from_pretrained(  # ← MUDA
                     args.pretrained_model_name_or_path,
-                    subfolder="transformer",
+                    subfolder="unet",  # ← MUDA
                     revision=args.revision,
                     variant=args.variant,
                     quantization_config=nf4_config,
                     torch_dtype=bnb_4bit_compute_dtype,
                 )
-            transformer_ = prepare_model_for_kbit_training(transformer_, use_gradient_checkpointing=False)
-            transformer_.add_adapter(transformer_lora_config)
+            unet_ = prepare_model_for_kbit_training(unet_, use_gradient_checkpointing=False)
+            unet_.add_adapter(unet_lora_config)  # ← MUDA
 
-        lora_state_dict = FluxPipeline.lora_state_dict(input_dir)
+        lora_state_dict = StableDiffusionXLPipeline.lora_state_dict(input_dir)  # ← MUDA
 
-        transformer_state_dict = {
-            f"{k.replace('transformer.', '')}": v for k, v in lora_state_dict.items() if k.startswith("transformer.")
+        unet_state_dict = {  # ← MUDA
+            f"{k.replace('unet.', '')}": v for k, v in lora_state_dict.items() if k.startswith("unet.")
         }
-        transformer_state_dict = convert_unet_state_dict_to_peft(transformer_state_dict)
-        incompatible_keys = set_peft_model_state_dict(transformer_, transformer_state_dict, adapter_name="default")
+        unet_state_dict = convert_unet_state_dict_to_peft(unet_state_dict)
+        incompatible_keys = set_peft_model_state_dict(unet_, unet_state_dict, adapter_name="default")  # ← MUDA
         if incompatible_keys is not None:
-            # check only for unexpected keys
             unexpected_keys = getattr(incompatible_keys, "unexpected_keys", None)
             if unexpected_keys:
                 logger.warning(
@@ -797,16 +840,13 @@ def main(args):
                     f" {unexpected_keys}. "
                 )
 
-        # Make sure the trainable params are in float32. This is again needed since the base models
-        # are in `weight_dtype`. More details:
-        # https://github.com/huggingface/diffusers/pull/6514#discussion_r1449796804
         if args.mixed_precision == "fp16":
-            models = [transformer_]
-            # only upcast trainable parameters (LoRA) into fp32
+            models = [unet_]  # ← MUDA
             cast_training_params(models)
 
     accelerator.register_save_state_pre_hook(save_model_hook)
     accelerator.register_load_state_pre_hook(load_model_hook)
+
 
     if args.scale_lr:
         args.learning_rate = (
@@ -815,15 +855,15 @@ def main(args):
 
     # Make sure the trainable params are in float32.
     if args.mixed_precision == "fp16":
-        models = [transformer]
+        models = [unet]
         # only upcast trainable parameters (LoRA) into fp32
         cast_training_params(models, dtype=torch.float32)
 
-    transformer_lora_parameters = list(filter(lambda p: p.requires_grad, transformer.parameters()))
+    unet_lora_parameters = list(filter(lambda p: p.requires_grad, unet.parameters()))
 
     # Optimization parameters
-    transformer_parameters_with_lr = {"params": transformer_lora_parameters, "lr": args.learning_rate}
-    params_to_optimize = [transformer_parameters_with_lr]
+    unet_parameters_with_lr = {"params": unet_lora_parameters, "lr": args.learning_rate}
+    params_to_optimize = [unet_parameters_with_lr]
 
     # Optimizer creation
     if args.use_8bit_adam and not args.optimizer.lower() == "adamw":
@@ -945,8 +985,8 @@ def main(args):
     )
 
     # Prepare everything with our `accelerator`.
-    transformer, optimizer, train_dataloader, lr_scheduler = accelerator.prepare(
-        transformer, optimizer, train_dataloader, lr_scheduler
+    unet, optimizer, train_dataloader, lr_scheduler = accelerator.prepare(
+        unet, optimizer, train_dataloader, lr_scheduler
     )
 
     # We need to recalculate our total training steps as the size of the training dataloader may have changed.
@@ -1012,22 +1052,11 @@ def main(args):
         disable=not accelerator.is_local_main_process,
     )
 
-    def get_sigmas(timesteps, n_dim=4, dtype=torch.float32):
-        sigmas = noise_scheduler_copy.sigmas.to(device=accelerator.device, dtype=dtype)
-        schedule_timesteps = noise_scheduler_copy.timesteps.to(accelerator.device)
-        timesteps = timesteps.to(accelerator.device)
-        step_indices = [(schedule_timesteps == t).nonzero().item() for t in timesteps]
-
-        sigma = sigmas[step_indices].flatten()
-        while len(sigma.shape) < n_dim:
-            sigma = sigma.unsqueeze(-1)
-        return sigma
-
     for epoch in range(first_epoch, args.num_train_epochs):
-        transformer.train()
+        unet.train()
 
         for step, batch in enumerate(train_dataloader):
-            models_to_accumulate = [transformer]
+            models_to_accumulate = [unet]
             with accelerator.accumulate(models_to_accumulate):
                 # Convert images to latent space
                 if args.cache_latents:
@@ -1035,93 +1064,56 @@ def main(args):
                 else:
                     pixel_values = batch["pixel_values"].to(dtype=vae.dtype)
                     model_input = vae.encode(pixel_values).latent_dist.sample()
-                model_input = (model_input - vae_config_shift_factor) * vae_config_scaling_factor
+                model_input = model_input * vae_config_scaling_factor
                 model_input = model_input.to(dtype=weight_dtype)
 
-                vae_scale_factor = 2 ** (len(vae_config_block_out_channels) - 1)
-
-                latent_image_ids = FluxPipeline._prepare_latent_image_ids(
-                    model_input.shape[0],
-                    model_input.shape[2] // 2,
-                    model_input.shape[3] // 2,
-                    accelerator.device,
-                    weight_dtype,
-                )
                 # Sample noise that we'll add to the latents
                 noise = torch.randn_like(model_input)
                 bsz = model_input.shape[0]
 
-                # Sample a random timestep for each image
-                # for weighting schemes where we sample timesteps non-uniformly
-                u = compute_density_for_timestep_sampling(
-                    weighting_scheme=args.weighting_scheme,
-                    batch_size=bsz,
-                    logit_mean=args.logit_mean,
-                    logit_std=args.logit_std,
-                    mode_scale=args.mode_scale,
-                )
-                indices = (u * noise_scheduler_copy.config.num_train_timesteps).long()
-                timesteps = noise_scheduler_copy.timesteps[indices].to(device=model_input.device)
+                # Sample a random timestep for each image (DDPM uniform sampling)
+                timesteps = torch.randint(
+                    0, noise_scheduler.config.num_train_timesteps, (bsz,), device=model_input.device
+                ).long()
 
-                # Add noise according to flow matching.
-                # zt = (1 - texp) * x + texp * z1
-                sigmas = get_sigmas(timesteps, n_dim=model_input.ndim, dtype=model_input.dtype)
-                noisy_model_input = (1.0 - sigmas) * model_input + sigmas * noise
-
-                packed_noisy_model_input = FluxPipeline._pack_latents(
-                    noisy_model_input,
-                    batch_size=model_input.shape[0],
-                    num_channels_latents=model_input.shape[1],
-                    height=model_input.shape[2],
-                    width=model_input.shape[3],
-                )
-
-                # handle guidance
-                if unwrap_model(transformer).config.guidance_embeds:
-                    guidance = torch.tensor([args.guidance_scale], device=accelerator.device)
-                    guidance = guidance.expand(model_input.shape[0])
-                else:
-                    guidance = None
+                # Add noise according to DDPM
+                # Move alphas_cumprod to the same device as timesteps before indexing
+                alphas_cumprod = noise_scheduler.alphas_cumprod.to(model_input.device)
+                sqrt_alpha_prod = torch.sqrt(alphas_cumprod[timesteps]).to(dtype=model_input.dtype)
+                sqrt_one_minus_alpha_prod = torch.sqrt(1 - alphas_cumprod[timesteps]).to(dtype=model_input.dtype)
+                
+                sqrt_alpha_prod = sqrt_alpha_prod.reshape(-1, 1, 1, 1)
+                sqrt_one_minus_alpha_prod = sqrt_one_minus_alpha_prod.reshape(-1, 1, 1, 1)
+                
+                noisy_model_input = sqrt_alpha_prod * model_input + sqrt_one_minus_alpha_prod * noise
 
                 # Predict the noise
                 prompt_embeds = batch["prompt_embeds"].to(device=accelerator.device, dtype=weight_dtype)
                 pooled_prompt_embeds = batch["pooled_prompt_embeds"].to(device=accelerator.device, dtype=weight_dtype)
-                text_ids = batch["text_ids"].to(device=accelerator.device, dtype=weight_dtype)
-                model_pred = transformer(
-                    hidden_states=packed_noisy_model_input,
-                    # YiYi notes: divide it by 1000 for now because we scale it by 1000 in the transformer model (we should not keep it but I want to keep the inputs same for the model for testing)
-                    timestep=timesteps / 1000,
-                    guidance=guidance,
-                    pooled_projections=pooled_prompt_embeds,
+                
+                # SDXL requires time_ids (image height and width information)
+                # Format: [original_height, original_width, crop_height_top, crop_width_left, target_height, target_width]
+                # Using args.height and args.width (defaults to 512, 512)
+                time_ids = torch.tensor(
+                    [args.height, args.width, 0, 0, args.height, args.width],
+                    dtype=weight_dtype,
+                    device=accelerator.device
+                ).repeat(bsz, 1)
+                
+                model_pred = unet(
+                    noisy_model_input,
+                    timesteps,
                     encoder_hidden_states=prompt_embeds,
-                    txt_ids=text_ids,
-                    img_ids=latent_image_ids,
+                    added_cond_kwargs={"text_embeds": pooled_prompt_embeds, "time_ids": time_ids},
                     return_dict=False,
                 )[0]
-                model_pred = FluxPipeline._unpack_latents(
-                    model_pred,
-                    height=model_input.shape[2] * vae_scale_factor,
-                    width=model_input.shape[3] * vae_scale_factor,
-                    vae_scale_factor=vae_scale_factor,
-                )
 
-                # these weighting schemes use a uniform timestep sampling
-                # and instead post-weight the loss
-                weighting = compute_loss_weighting_for_sd3(weighting_scheme=args.weighting_scheme, sigmas=sigmas)
-
-                # flow matching loss
-                target = noise - model_input
-
-                # Compute regular loss.
-                loss = torch.mean(
-                    (weighting.float() * (model_pred.float() - target.float()) ** 2).reshape(target.shape[0], -1),
-                    1,
-                )
-                loss = loss.mean()
+                # Compute loss (predict noise)
+                loss = torch.nn.functional.mse_loss(model_pred.float(), noise.float(), reduction="mean")
                 accelerator.backward(loss)
 
                 if accelerator.sync_gradients:
-                    params_to_clip = transformer.parameters()
+                    params_to_clip = unet.parameters()
                     accelerator.clip_grad_norm_(params_to_clip, args.max_grad_norm)
 
                 optimizer.step()
@@ -1169,12 +1161,12 @@ def main(args):
     # Save the lora layers
     accelerator.wait_for_everyone()
     if accelerator.is_main_process:
-        transformer = unwrap_model(transformer)
-        transformer_lora_layers = get_peft_model_state_dict(transformer)
+        unet = unwrap_model(unet)
+        unet_lora_layers = get_peft_model_state_dict(unet)
 
-        FluxPipeline.save_lora_weights(
+        StableDiffusionXLPipeline.save_lora_weights(
             save_directory=args.output_dir,
-            transformer_lora_layers=transformer_lora_layers,
+            unet_lora_layers=unet_lora_layers,
             text_encoder_lora_layers=None,
         )
 
@@ -1184,7 +1176,7 @@ def main(args):
                 base_model=args.pretrained_model_name_or_path,
                 instance_prompt=None,
                 repo_folder=args.output_dir,
-                quantization_config=transformer.config["quantization_config"],
+                quantization_config=str(unet.config),
             )
             upload_folder(
                 repo_id=repo_id,

@@ -1,0 +1,16 @@
+11/08/2025 15:42:38 - INFO - __main__ - ***** Running training *****
+11/08/2025 15:42:38 - INFO - __main__ -   Num examples = 18
+11/08/2025 15:42:38 - INFO - __main__ -   Num batches each epoch = 18
+11/08/2025 15:42:38 - INFO - __main__ -   Num Epochs = 140
+11/08/2025 15:42:38 - INFO - __main__ -   Instantaneous batch size per device = 1
+11/08/2025 15:42:38 - INFO - __main__ -   Total train batch size (w. parallel, distributed & accumulation) = 4
+11/08/2025 15:42:38 - INFO - __main__ -   Gradient Accumulation steps = 4
+11/08/2025 15:42:38 - INFO - __main__ -   Total optimization steps = 700
+Steps:   0%|                                                                              | 0/700 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/train.py", line 1182, in <module>
+    main(args)
+    ~~~~^^^^^^
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/train.py", line 1080, in main
+    sqrt_alpha_prod = torch.sqrt(noise_scheduler.alphas_cumprod[timesteps]).to(device=model_input.device, dtype=model_input.dtype)
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+RuntimeError: indices should be either on cpu or on the same device as the indexed tensor (cpu)

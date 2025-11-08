@@ -16,14 +16,14 @@
 
 import argparse
 
+import numpy as np
 import pandas as pd
 import torch
 from datasets import load_dataset
 from huggingface_hub.utils import insecure_hashlib
 from tqdm.auto import tqdm
-from transformers import T5EncoderModel
 
-from diffusers import FluxPipeline
+from diffusers import StableDiffusionXLPipeline
 
 
 MAX_SEQ_LENGTH = 77
@@ -35,11 +35,9 @@ def generate_image_hash(image):
 
 
 def load_flux_dev_pipeline():
-    id = "black-forest-labs/FLUX.1-dev"
-    text_encoder = T5EncoderModel.from_pretrained(id, subfolder="text_encoder_2", load_in_8bit=True, device_map="auto")
-    pipeline = FluxPipeline.from_pretrained(
-        id, text_encoder_2=text_encoder, transformer=None, vae=None, device_map="balanced"
-    )
+    id = "stabilityai/stable-diffusion-xl-base-1.0"
+    # Carregar pipeline SDXL para gerar embeddings
+    pipeline = StableDiffusionXLPipeline.from_pretrained(id, device_map="balanced")
     return pipeline
 
 
@@ -49,14 +47,18 @@ def compute_embeddings(pipeline, prompts, max_sequence_length):
     all_pooled_prompt_embeds = []
     all_text_ids = []
     for prompt in tqdm(prompts, desc="Encoding prompts."):
-        (
-            prompt_embeds,
-            pooled_prompt_embeds,
-            text_ids,
-        ) = pipeline.encode_prompt(prompt=prompt, prompt_2=None, max_sequence_length=max_sequence_length)
+        # SDXL: encode_prompt com output_hidden_states=True para obter pooled embeddings
+        prompt_embeds, negative_prompt_embeds, pooled_prompt_embeds, negative_pooled_prompt_embeds = pipeline.encode_prompt(
+            prompt=prompt,
+            device=pipeline.device,
+            num_images_per_prompt=1,
+            do_classifier_free_guidance=True,  # Ativar para obter tanto positive quanto negative
+        )
+        
         all_prompt_embeds.append(prompt_embeds)
         all_pooled_prompt_embeds.append(pooled_prompt_embeds)
-        all_text_ids.append(text_ids)
+        # Para SDXL, criamos um text_ids dummy (não é usado em SDXL como em FLUX)
+        all_text_ids.append(torch.zeros(max_sequence_length, 1))
 
     max_memory = torch.cuda.max_memory_allocated() / 1024 / 1024 / 1024
     print(f"Max memory allocated: {max_memory:.3f} GB")
@@ -85,8 +87,30 @@ def run(args):
     print(f"{len(df)=}")
 
     # Convert embedding lists to arrays (for proper storage in parquet)
+    def safe_convert(x):
+        if x is None:
+            return None
+        if isinstance(x, torch.Tensor):
+            x = x.cpu().numpy()
+            # Remove batch dimension if present
+            if x.ndim == 3 and x.shape[0] == 1:
+                x = x[0]
+            elif x.ndim == 2 and x.shape[0] == 1:
+                x = x[0]
+            return x.tolist()  # Converter para lista para parquet storage
+        if isinstance(x, np.ndarray):
+            # Remove batch dimension if present
+            if x.ndim == 3 and x.shape[0] == 1:
+                x = x[0]
+            elif x.ndim == 2 and x.shape[0] == 1:
+                x = x[0]
+            return x.tolist()
+        if isinstance(x, list):
+            return x
+        return x
+    
     for col in embedding_cols:
-        df[col] = df[col].apply(lambda x: x.cpu().numpy().flatten().tolist())
+        df[col] = df[col].apply(safe_convert)
 
     # Save the dataframe to a parquet file
     df.to_parquet(args.output_path)
