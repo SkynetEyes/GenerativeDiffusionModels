@@ -1,0 +1,25 @@
+# Requirements for compute_embeddings.py and train.py
+# NOTE: torch installation often depends on your CUDA / CPU environment.
+# For correct torch + torchvision wheel, prefer installing from https://pytorch.org/get-started/locally
+
+torch>=2.0.0
+transformers>=4.35.0
+diffusers>=0.31.0
+accelerate>=0.20.0
+datasets>=2.8.0
+huggingface-hub>=0.14.0
+peft>=0.4.0
+bitsandbytes>=0.39.0
+
+numpy>=1.24.0
+pandas>=2.0.0
+pyarrow>=10.0.0
+tqdm>=4.64.0
+pillow>=9.0.0
+torchvision>=0.15.0
+wandb>=0.15.0
+safetensors>=0.3.0
+
+# Optional / alternative dependencies (only if you use those features):
+# prodigyopt (for Prodigy optimizer support)
+# prodigyopt>=0.0.0
