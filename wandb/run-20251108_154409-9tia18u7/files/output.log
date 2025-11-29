@@ -1,0 +1,43 @@
+11/08/2025 15:44:10 - INFO - __main__ - ***** Running training *****
+11/08/2025 15:44:10 - INFO - __main__ -   Num examples = 18
+11/08/2025 15:44:10 - INFO - __main__ -   Num batches each epoch = 18
+11/08/2025 15:44:10 - INFO - __main__ -   Num Epochs = 140
+11/08/2025 15:44:10 - INFO - __main__ -   Instantaneous batch size per device = 1
+11/08/2025 15:44:10 - INFO - __main__ -   Total train batch size (w. parallel, distributed & accumulation) = 4
+11/08/2025 15:44:10 - INFO - __main__ -   Gradient Accumulation steps = 4
+11/08/2025 15:44:10 - INFO - __main__ -   Total optimization steps = 700
+Steps:   0%|                                                                              | 0/700 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/train.py", line 1184, in <module>
+    main(args)
+    ~~~~^^^^^^
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/train.py", line 1094, in main
+    model_pred = unet(
+                 ~~~~^
+        noisy_model_input,
+        ^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        return_dict=False,
+        ^^^^^^^^^^^^^^^^^^
+    )[0]
+    ^
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/lib64/python3.13/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/lib64/python3.13/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/lib64/python3.13/site-packages/accelerate/utils/operations.py", line 819, in forward
+    return model_forward(*args, **kwargs)
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/lib64/python3.13/site-packages/accelerate/utils/operations.py", line 807, in __call__
+    return convert_to_fp32(self.model_forward(*args, **kwargs))
+                           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/lib64/python3.13/site-packages/torch/amp/autocast_mode.py", line 44, in decorate_autocast
+    return func(*args, **kwargs)
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/lib64/python3.13/site-packages/diffusers/models/unets/unet_2d_condition.py", line 1151, in forward
+    aug_emb = self.get_aug_embed(
+        emb=emb, encoder_hidden_states=encoder_hidden_states, added_cond_kwargs=added_cond_kwargs
+    )
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/lib64/python3.13/site-packages/diffusers/models/unets/unet_2d_condition.py", line 975, in get_aug_embed
+    raise ValueError(
+        f"{self.__class__} has the config param `addition_embed_type` set to 'text_time' which requires the keyword argument `time_ids` to be passed in `added_cond_kwargs`"
+    )
+ValueError: <class 'diffusers.models.unets.unet_2d_condition.UNet2DConditionModel'> has the config param `addition_embed_type` set to 'text_time' which requires the keyword argument `time_ids` to be passed in `added_cond_kwargs`

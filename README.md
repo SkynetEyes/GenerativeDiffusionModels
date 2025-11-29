@@ -17,9 +17,9 @@ python compute_embeddings.py \
 ```
 Run the training with accelerate
 ```bash
-accelerate launch 
+accelerate launch --config_file=accelerate.yaml\
   train.py \
-  --pretrained_model_name_or_path="black-forest-labs/FLUX.1-dev" \
+  --pretrained_model_name_or_path="stabilityai/stable-diffusion-xl-base-1.0" \
   --data_df_path="embeddings.parquet" \
   --output_dir="results" \
   --mixed_precision="bf16" \
