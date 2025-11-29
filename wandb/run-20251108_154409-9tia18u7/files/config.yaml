@@ -1,0 +1,192 @@
+_wandb:
+    value:
+        cli_version: 0.22.3
+        e:
+            gck6ljnd8ouzpun13sdjcabz3aydy6oe:
+                args:
+                    - --pretrained_model_name_or_path=stabilityai/stable-diffusion-xl-base-1.0
+                    - --data_df_path=embeddings.parquet
+                    - --output_dir=results
+                    - --mixed_precision=bf16
+                    - --use_8bit_adam
+                    - --train_batch_size=1
+                    - --learning_rate=1e-4
+                    - --report_to=wandb
+                    - --gradient_accumulation_steps=4
+                    - --gradient_checkpointing
+                    - --checkpointing_steps=100
+                    - --lr_scheduler=constant
+                    - --max_train_steps=700
+                    - --rank=4
+                    - --seed=0
+                codePath: train.py
+                codePathLocal: train.py
+                cpu_count: 8
+                cpu_count_logical: 12
+                cudaVersion: "13.0"
+                disk:
+                    /:
+                        total: "498403901440"
+                        used: "237467205632"
+                email: jose.mauricio.jr@icloud.com
+                executable: /home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/bin/python
+                git:
+                    commit: 21f1f72a3325d8f25306a26be6c193b35c199155
+                    remote: https://github.com/SkynetEyes/GenerativeDiffusionModels.git
+                gpu: NVIDIA GeForce RTX 4050 Laptop GPU
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ada
+                      cudaCores: 2560
+                      memoryTotal: "6439305216"
+                      name: NVIDIA GeForce RTX 4050 Laptop GPU
+                      uuid: GPU-46cd4c5a-718c-effe-7e0c-d15dfa52fafd
+                host: fedora
+                memory:
+                    total: "24875474944"
+                os: Linux-6.17.5-200.fc42.x86_64-x86_64-with-glibc2.41
+                program: /home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/train.py
+                python: CPython 3.13.9
+                root: /home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels
+                startedAt: "2025-11-08T18:44:09.336821Z"
+                writerId: gck6ljnd8ouzpun13sdjcabz3aydy6oe
+        m: []
+        python_version: 3.13.9
+        t:
+            "1":
+                - 1
+                - 11
+                - 41
+                - 49
+                - 51
+                - 71
+                - 83
+                - 98
+            "2":
+                - 1
+                - 11
+                - 41
+                - 49
+                - 51
+                - 71
+                - 83
+                - 98
+            "4": 3.13.9
+            "5": 0.22.3
+            "6": 4.57.1
+            "12": 0.22.3
+            "13": linux-x86_64
+adam_beta1:
+    value: 0.9
+adam_beta2:
+    value: 0.999
+adam_epsilon:
+    value: 1e-08
+adam_weight_decay:
+    value: 0.0001
+cache_dir:
+    value: null
+cache_latents:
+    value: false
+center_crop:
+    value: false
+checkpointing_steps:
+    value: 100
+checkpoints_total_limit:
+    value: null
+data_df_path:
+    value: embeddings.parquet
+dataloader_num_workers:
+    value: 0
+gradient_accumulation_steps:
+    value: 4
+gradient_checkpointing:
+    value: true
+guidance_scale:
+    value: 1
+height:
+    value: 512
+hub_model_id:
+    value: null
+hub_token:
+    value: null
+learning_rate:
+    value: 0.0001
+local_rank:
+    value: -1
+logging_dir:
+    value: logs
+logit_mean:
+    value: 0
+logit_std:
+    value: 1
+lr_num_cycles:
+    value: 1
+lr_power:
+    value: 1
+lr_scheduler:
+    value: constant
+lr_warmup_steps:
+    value: 500
+max_grad_norm:
+    value: 1
+max_sequence_length:
+    value: 77
+max_train_steps:
+    value: 700
+mixed_precision:
+    value: bf16
+mode_scale:
+    value: 1.29
+num_train_epochs:
+    value: 140
+optimizer:
+    value: AdamW
+output_dir:
+    value: results
+pretrained_model_name_or_path:
+    value: stabilityai/stable-diffusion-xl-base-1.0
+prodigy_beta3:
+    value: null
+prodigy_decouple:
+    value: true
+prodigy_safeguard_warmup:
+    value: true
+prodigy_use_bias_correction:
+    value: true
+push_to_hub:
+    value: false
+quantized_model_path:
+    value: null
+random_flip:
+    value: false
+rank:
+    value: 4
+repeats:
+    value: 1
+report_to:
+    value: wandb
+resolution:
+    value: 512
+resume_from_checkpoint:
+    value: null
+revision:
+    value: null
+sample_batch_size:
+    value: 4
+scale_lr:
+    value: false
+seed:
+    value: 0
+train_batch_size:
+    value: 1
+use_8bit_adam:
+    value: true
+use_8bit_ademamix:
+    value: false
+variant:
+    value: null
+weighting_scheme:
+    value: none
+width:
+    value: 512

@@ -1,0 +1,12 @@
+{"time":"2025-11-08T15:46:32.609428854-03:00","level":"INFO","msg":"stream: starting","core version":"0.22.3"}
+{"time":"2025-11-08T15:46:32.91763558-03:00","level":"INFO","msg":"stream: created new stream","id":"5belkalx"}
+{"time":"2025-11-08T15:46:32.917693117-03:00","level":"INFO","msg":"handler: started","stream_id":"5belkalx"}
+{"time":"2025-11-08T15:46:32.917757782-03:00","level":"INFO","msg":"stream: started","id":"5belkalx"}
+{"time":"2025-11-08T15:46:32.917771043-03:00","level":"INFO","msg":"writer: started","stream_id":"5belkalx"}
+{"time":"2025-11-08T15:46:32.917774082-03:00","level":"INFO","msg":"sender: started","stream_id":"5belkalx"}
+{"time":"2025-11-08T16:16:44.253487194-03:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-11-08T16:16:44.513691406-03:00","level":"INFO","msg":"handler: operation stats","stats":{}}
+{"time":"2025-11-08T16:16:44.515087656-03:00","level":"INFO","msg":"stream: closing","id":"5belkalx"}
+{"time":"2025-11-08T16:16:44.515094746-03:00","level":"INFO","msg":"handler: closed","stream_id":"5belkalx"}
+{"time":"2025-11-08T16:16:44.515122331-03:00","level":"INFO","msg":"sender: closed","stream_id":"5belkalx"}
+{"time":"2025-11-08T16:16:44.515125186-03:00","level":"INFO","msg":"stream: closed","id":"5belkalx"}
