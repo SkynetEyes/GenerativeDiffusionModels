@@ -1,0 +1,58 @@
+{
+  "os":  "Linux-6.17.7-200.fc42.x86_64-x86_64-with-glibc2.41",
+  "python":  "CPython 3.13.9",
+  "startedAt":  "2025-11-29T17:24:46.139255Z",
+  "args":  [
+    "--pretrained_model_name_or_path=stabilityai/stable-diffusion-xl-base-1.0",
+    "--data_df_path=embeddings.parquet",
+    "--output_dir=rembrant_portrait_sdxl",
+    "--mixed_precision=bf16",
+    "--use_8bit_adam",
+    "--train_batch_size=1",
+    "--learning_rate=1e-4",
+    "--gradient_accumulation_steps=4",
+    "--gradient_checkpointing",
+    "--checkpointing_steps=100",
+    "--max_train_steps=700",
+    "--rank=4",
+    "--report_to=wandb",
+    "--seed=0",
+    "--add_image_path",
+    "--image_path=data/rembrandt_portrait_resized.parquet"
+  ],
+  "program":  "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/train_sdxl.py",
+  "codePath":  "train_sdxl.py",
+  "codePathLocal":  "train_sdxl.py",
+  "git":  {
+    "remote":  "https://github.com/SkynetEyes/GenerativeDiffusionModels.git",
+    "commit":  "3bb771fb1b2f3394d68507bce01f549201ddad98"
+  },
+  "email":  "jose.mauricio.jr@icloud.com",
+  "root":  "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels",
+  "host":  "fedora",
+  "executable":  "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/bin/python",
+  "cpu_count":  8,
+  "cpu_count_logical":  12,
+  "gpu":  "NVIDIA GeForce RTX 4050 Laptop GPU",
+  "gpu_count":  1,
+  "disk":  {
+    "/":  {
+      "total":  "498403901440",
+      "used":  "265741877248"
+    }
+  },
+  "memory":  {
+    "total":  "24875495424"
+  },
+  "gpu_nvidia":  [
+    {
+      "name":  "NVIDIA GeForce RTX 4050 Laptop GPU",
+      "memoryTotal":  "6439305216",
+      "cudaCores":  2560,
+      "architecture":  "Ada",
+      "uuid":  "GPU-46cd4c5a-718c-effe-7e0c-d15dfa52fafd"
+    }
+  ],
+  "cudaVersion":  "13.0",
+  "writerId":  "n7tds1lsvt5l3kl7ewhbv64zkocu24s6"
+}

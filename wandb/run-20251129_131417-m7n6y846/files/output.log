@@ -1,0 +1,28 @@
+11/29/2025 13:14:18 - INFO - __main__ - ***** Running training *****
+11/29/2025 13:14:18 - INFO - __main__ -   Num examples = 18
+11/29/2025 13:14:18 - INFO - __main__ -   Num batches each epoch = 18
+11/29/2025 13:14:18 - INFO - __main__ -   Num Epochs = 140
+11/29/2025 13:14:18 - INFO - __main__ -   Instantaneous batch size per device = 1
+11/29/2025 13:14:18 - INFO - __main__ -   Total train batch size (w. parallel, distributed & accumulation) = 4
+11/29/2025 13:14:18 - INFO - __main__ -   Gradient Accumulation steps = 4
+11/29/2025 13:14:18 - INFO - __main__ -   Total optimization steps = 700
+Steps:   0%|                                                                                             | 0/700 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/train_sdxl.py", line 1193, in <module>
+    main(args)
+    ~~~~^^^^^^
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/train_sdxl.py", line 1058, in main
+    for step, batch in enumerate(train_dataloader):
+                       ~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/lib64/python3.13/site-packages/accelerate/data_loader.py", line 567, in __iter__
+    current_batch = next(dataloader_iter)
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/lib64/python3.13/site-packages/torch/utils/data/dataloader.py", line 732, in __next__
+    data = self._next_data()
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/lib64/python3.13/site-packages/torch/utils/data/dataloader.py", line 788, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/lib64/python3.13/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/train_sdxl.py", line 517, in __getitem__
+    prompt_embeds, pooled_prompt_embeds, text_ids = self.data_dict[image_hash]
+                                                    ~~~~~~~~~~~~~~^^^^^^^^^^^^
+KeyError: '6bf437469c74155b73e611c789d4dbc2c98b2ba5b9e326644938b433316aa841'

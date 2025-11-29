@@ -1,0 +1,33 @@
+{
+  "os":  "Linux-6.17.7-200.fc42.x86_64-x86_64-with-glibc2.41",
+  "python":  "CPython 3.13.9",
+  "startedAt":  "2025-11-29T16:14:17.478255Z",
+  "args":  [
+    "--pretrained_model_name_or_path=stabilityai/stable-diffusion-xl-base-1.0",
+    "--data_df_path=embeddings.parquet",
+    "--output_dir=rembrant_barroco_sdxl",
+    "--mixed_precision=bf16",
+    "--use_8bit_adam",
+    "--train_batch_size=1",
+    "--learning_rate=1e-4",
+    "--gradient_accumulation_steps=4",
+    "--gradient_checkpointing",
+    "--checkpointing_steps=100",
+    "--max_train_steps=700",
+    "--rank=4",
+    "--report_to=wandb",
+    "--seed=0"
+  ],
+  "program":  "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/train_sdxl.py",
+  "codePath":  "train_sdxl.py",
+  "codePathLocal":  "train_sdxl.py",
+  "git":  {
+    "remote":  "https://github.com/SkynetEyes/GenerativeDiffusionModels.git",
+    "commit":  "3bb771fb1b2f3394d68507bce01f549201ddad98"
+  },
+  "email":  "jose.mauricio.jr@icloud.com",
+  "root":  "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels",
+  "host":  "fedora",
+  "executable":  "/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/bin/python",
+  "writerId":  "9hwpn6fij8sb1z1qhcdiwi6fjlz8vc1g"
+}
