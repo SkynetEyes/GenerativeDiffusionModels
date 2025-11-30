@@ -20,6 +20,11 @@ torchvision>=0.15.0
 wandb>=0.15.0
 safetensors>=0.3.0
 
-# Optional / alternative dependencies (only if you use those features):
-# prodigyopt (for Prodigy optimizer support)
-# prodigyopt>=0.0.0
+controlnet_aux==0.0.10
+MarkupSafe==3.0.3
+matplotlib==3.10.7
+matplotlib-inline==0.2.1
+opencv-python-headless==4.12.0.88
+streamlit==1.51.0
+streamlit-drawable-canvas==0.9.3
+torch==2.9.1
