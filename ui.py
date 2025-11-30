@@ -14,7 +14,6 @@ from controlnet_aux import (
     CannyDetector, OpenposeDetector,  ZoeDetector, LineartDetector
 )
 from streamlit_drawable_canvas import st_canvas
-import cv2
 
 CKPT_ID = "CompVis/stable-diffusion-v1-4"
 LORA_PATH = "results"
@@ -146,11 +145,14 @@ def controlnet_input():
             uploaded = st.file_uploader(label='Imagem de Controle',type=["jpg", "jpeg", "png"])
 
             if uploaded:
-                arr = np.frombuffer(uploaded.read(), np.uint8)
-                img = cv2.imdecode(arr, cv2.IMREAD_COLOR)[:, :, ::-1]  # BGR→RGB
-                st.image(img, caption="Imagem enviada", width=400)
-                st.session_state.ref_image = img
+                # Lê a imagem diretamente com PIL
+                img = Image.open(uploaded).convert("RGB")
 
+                # Exibe no Streamlit
+                st.image(img, caption="Imagem enviada", width=400)
+
+                # Se você ainda precisa dela como array (ex: para modelos)
+                st.session_state.ref_image = np.array(img)
 
         # ======================= DESENHO =============================
 
@@ -174,7 +176,6 @@ def controlnet_input():
             with c2:
                 if canvas.image_data is not None:
                     img = canvas.image_data.astype("uint8")
-                    img = cv2.cvtColor(img, cv2.COLOR_RGBA2RGB)
                     st.image(img, caption="Desenho capturado", width=400)
                     st.session_state.ref_image = img
 
