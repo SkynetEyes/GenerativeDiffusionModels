@@ -215,13 +215,14 @@ def generate_image(prompt, control_images, selected_controls, seed=123):
 
     pipe = load_base_pipeline()
     controlnets = load_controlnets(selected_controls)
-    pipe.controlnet = controlnets
+    if len(selected_controls) > 0:
+        pipe.controlnet = load_controlnets(selected_controls)
     pipe.load_lora_weights(LORA_PATH, weight_name=LORA_FILENAME)
     generator = torch.Generator("cuda").manual_seed(seed)
 
     out = pipe(
         prompt=prompt,
-        image=control_images,
+        image=control_images if len(control_images) > 0 else None,
         num_inference_steps=30,
         guidance_scale=7.5,
         controlnet_conditioning_scale=[1.0] * len(controlnets),
@@ -258,7 +259,7 @@ st.markdown("### Prompt")
 
 prompt = st.text_input(label='Prompt')
 
-if st.session_state.ref_image is not None and st.session_state.selected_controls:
+if st.session_state.ref_image is not None and len(st.session_state.selected_controls)>0:
         img = st.session_state.ref_image
         control_images = {}
 
@@ -271,31 +272,34 @@ if st.session_state.ref_image is not None and st.session_state.selected_controls
 
 # ======================= GERAÇÃO ===============================
 
-if st.session_state.ref_image is not None and st.session_state.selected is not None and len(st.session_state.selected_controls) > 0:
+if st.session_state.selected is not None:
 
     if st.button("Gerar imagem", type="primary"):
 
-        # ---- Carregar todos os modelos selecionados ----
-        with st.spinner("Carregando modelos ControlNet..."):
+        
+        if st.session_state.ref_image is not None and len(st.session_state.selected_controls)>0:
 
-            controlnet_models = []
-            for ctrl in st.session_state.selected_controls:
-                model_name = CONTROL_TYPES[ctrl]
-                model = ControlNetModel.from_pretrained(
-                    model_name, 
-                    torch_dtype=torch.float16
-                )
-                controlnet_models.append(model)
+            # ---- Carregar todos os modelos selecionados ----
+            with st.spinner("Carregando modelos ControlNet..."):
+                
+                controlnet_models = []
+                for ctrl in st.session_state.selected_controls:
+                    model_name = CONTROL_TYPES[ctrl]
+                    model = ControlNetModel.from_pretrained(
+                        model_name, 
+                        torch_dtype=torch.float16
+                    )
+                    controlnet_models.append(model)
 
-            pipe = StableDiffusionControlNetPipeline.from_pretrained(
-                "runwayml/stable-diffusion-v1-5",
-                controlnet=controlnet_models,
-                torch_dtype=torch.float16,
-                safety_checker=None
-            ).to("cuda")
+                pipe = StableDiffusionControlNetPipeline.from_pretrained(
+                    "runwayml/stable-diffusion-v1-5",
+                    controlnet=controlnet_models,
+                    torch_dtype=torch.float16,
+                    safety_checker=None
+                ).to("cuda")
 
-        # ---- Preparar as imagens pré-processadas ----
-        cond_images = [control_images[c] for c in st.session_state.selected_controls]
+            # ---- Preparar as imagens pré-processadas ----
+            cond_images = [control_images[c] for c in st.session_state.selected_controls]
 
         # ---- Gerar ----
         with st.spinner("Gerando imagem..."):
