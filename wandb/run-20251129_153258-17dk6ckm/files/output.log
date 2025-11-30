@@ -1,0 +1,58 @@
+11/29/2025 15:32:59 - INFO - __main__ - ***** Running training *****
+11/29/2025 15:32:59 - INFO - __main__ -   Num examples = 10
+11/29/2025 15:32:59 - INFO - __main__ -   Num batches each epoch = 10
+11/29/2025 15:32:59 - INFO - __main__ -   Num Epochs = 234
+11/29/2025 15:32:59 - INFO - __main__ -   Instantaneous batch size per device = 1
+11/29/2025 15:32:59 - INFO - __main__ -   Total train batch size (w. parallel, distributed & accumulation) = 4
+11/29/2025 15:32:59 - INFO - __main__ -   Gradient Accumulation steps = 4
+11/29/2025 15:32:59 - INFO - __main__ -   Total optimization steps = 700
+Steps:  14%|███████████████▎                                                                                           | 100/700 [04:22<27:19,  2.73s/it, loss=0.0644, lr=0.0001]11/29/2025 15:37:22 - INFO - accelerate.accelerator - Saving current state to rembrandt_portrait_sdxl16/checkpoint-100
+Model weights saved in rembrandt_portrait_sdxl16/checkpoint-100/pytorch_lora_weights.safetensors
+11/29/2025 15:37:23 - INFO - accelerate.checkpointing - Optimizer state saved in rembrandt_portrait_sdxl16/checkpoint-100/optimizer.bin
+11/29/2025 15:37:23 - INFO - accelerate.checkpointing - Scheduler state saved in rembrandt_portrait_sdxl16/checkpoint-100/scheduler.bin
+11/29/2025 15:37:23 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in rembrandt_portrait_sdxl16/checkpoint-100/sampler.bin
+11/29/2025 15:37:23 - INFO - accelerate.checkpointing - Random states saved in rembrandt_portrait_sdxl16/checkpoint-100/random_states_0.pkl
+11/29/2025 15:37:23 - INFO - __main__ - Saved state to rembrandt_portrait_sdxl16/checkpoint-100
+Steps:  29%|███████████████████████████████▏                                                                             | 200/700 [09:01<22:41,  2.72s/it, loss=0.11, lr=0.0001]11/29/2025 15:42:01 - INFO - accelerate.accelerator - Saving current state to rembrandt_portrait_sdxl16/checkpoint-200
+Model weights saved in rembrandt_portrait_sdxl16/checkpoint-200/pytorch_lora_weights.safetensors
+11/29/2025 15:42:01 - INFO - accelerate.checkpointing - Optimizer state saved in rembrandt_portrait_sdxl16/checkpoint-200/optimizer.bin
+11/29/2025 15:42:01 - INFO - accelerate.checkpointing - Scheduler state saved in rembrandt_portrait_sdxl16/checkpoint-200/scheduler.bin
+11/29/2025 15:42:01 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in rembrandt_portrait_sdxl16/checkpoint-200/sampler.bin
+11/29/2025 15:42:01 - INFO - accelerate.checkpointing - Random states saved in rembrandt_portrait_sdxl16/checkpoint-200/random_states_0.pkl
+11/29/2025 15:42:01 - INFO - __main__ - Saved state to rembrandt_portrait_sdxl16/checkpoint-200
+Steps:  43%|█████████████████████████████████████████████▍                                                            | 300/700 [13:32<17:04,  2.56s/it, loss=0.00676, lr=0.0001]11/29/2025 15:46:32 - INFO - accelerate.accelerator - Saving current state to rembrandt_portrait_sdxl16/checkpoint-300
+Model weights saved in rembrandt_portrait_sdxl16/checkpoint-300/pytorch_lora_weights.safetensors
+11/29/2025 15:46:32 - INFO - accelerate.checkpointing - Optimizer state saved in rembrandt_portrait_sdxl16/checkpoint-300/optimizer.bin
+11/29/2025 15:46:32 - INFO - accelerate.checkpointing - Scheduler state saved in rembrandt_portrait_sdxl16/checkpoint-300/scheduler.bin
+11/29/2025 15:46:32 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in rembrandt_portrait_sdxl16/checkpoint-300/sampler.bin
+11/29/2025 15:46:32 - INFO - accelerate.checkpointing - Random states saved in rembrandt_portrait_sdxl16/checkpoint-300/random_states_0.pkl
+11/29/2025 15:46:32 - INFO - __main__ - Saved state to rembrandt_portrait_sdxl16/checkpoint-300
+Steps:  57%|█████████████████████████████████████████████████████████████▏                                             | 400/700 [18:07<15:54,  3.18s/it, loss=0.0107, lr=0.0001]11/29/2025 15:51:06 - INFO - accelerate.accelerator - Saving current state to rembrandt_portrait_sdxl16/checkpoint-400
+Model weights saved in rembrandt_portrait_sdxl16/checkpoint-400/pytorch_lora_weights.safetensors
+11/29/2025 15:51:07 - INFO - accelerate.checkpointing - Optimizer state saved in rembrandt_portrait_sdxl16/checkpoint-400/optimizer.bin
+11/29/2025 15:51:07 - INFO - accelerate.checkpointing - Scheduler state saved in rembrandt_portrait_sdxl16/checkpoint-400/scheduler.bin
+11/29/2025 15:51:07 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in rembrandt_portrait_sdxl16/checkpoint-400/sampler.bin
+11/29/2025 15:51:07 - INFO - accelerate.checkpointing - Random states saved in rembrandt_portrait_sdxl16/checkpoint-400/random_states_0.pkl
+11/29/2025 15:51:07 - INFO - __main__ - Saved state to rembrandt_portrait_sdxl16/checkpoint-400
+Steps:  71%|████████████████████████████████████████████████████████████████████████████▍                              | 500/700 [23:02<10:55,  3.28s/it, loss=0.0173, lr=0.0001]11/29/2025 15:56:02 - INFO - accelerate.accelerator - Saving current state to rembrandt_portrait_sdxl16/checkpoint-500
+Model weights saved in rembrandt_portrait_sdxl16/checkpoint-500/pytorch_lora_weights.safetensors
+11/29/2025 15:56:02 - INFO - accelerate.checkpointing - Optimizer state saved in rembrandt_portrait_sdxl16/checkpoint-500/optimizer.bin
+11/29/2025 15:56:02 - INFO - accelerate.checkpointing - Scheduler state saved in rembrandt_portrait_sdxl16/checkpoint-500/scheduler.bin
+11/29/2025 15:56:02 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in rembrandt_portrait_sdxl16/checkpoint-500/sampler.bin
+11/29/2025 15:56:02 - INFO - accelerate.checkpointing - Random states saved in rembrandt_portrait_sdxl16/checkpoint-500/random_states_0.pkl
+11/29/2025 15:56:02 - INFO - __main__ - Saved state to rembrandt_portrait_sdxl16/checkpoint-500
+Steps:  86%|████████████████████████████████████████████████████████████████████████████████████████████▌               | 600/700 [27:23<04:24,  2.65s/it, loss=0.244, lr=0.0001]11/29/2025 16:00:22 - INFO - accelerate.accelerator - Saving current state to rembrandt_portrait_sdxl16/checkpoint-600
+Model weights saved in rembrandt_portrait_sdxl16/checkpoint-600/pytorch_lora_weights.safetensors
+11/29/2025 16:00:23 - INFO - accelerate.checkpointing - Optimizer state saved in rembrandt_portrait_sdxl16/checkpoint-600/optimizer.bin
+11/29/2025 16:00:23 - INFO - accelerate.checkpointing - Scheduler state saved in rembrandt_portrait_sdxl16/checkpoint-600/scheduler.bin
+11/29/2025 16:00:23 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in rembrandt_portrait_sdxl16/checkpoint-600/sampler.bin
+11/29/2025 16:00:23 - INFO - accelerate.checkpointing - Random states saved in rembrandt_portrait_sdxl16/checkpoint-600/random_states_0.pkl
+11/29/2025 16:00:23 - INFO - __main__ - Saved state to rembrandt_portrait_sdxl16/checkpoint-600
+Steps: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████| 700/700 [31:44<00:00,  2.54s/it, loss=0.0728, lr=0.0001]11/29/2025 16:04:44 - INFO - accelerate.accelerator - Saving current state to rembrandt_portrait_sdxl16/checkpoint-700
+Model weights saved in rembrandt_portrait_sdxl16/checkpoint-700/pytorch_lora_weights.safetensors
+11/29/2025 16:04:44 - INFO - accelerate.checkpointing - Optimizer state saved in rembrandt_portrait_sdxl16/checkpoint-700/optimizer.bin
+11/29/2025 16:04:44 - INFO - accelerate.checkpointing - Scheduler state saved in rembrandt_portrait_sdxl16/checkpoint-700/scheduler.bin
+11/29/2025 16:04:44 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in rembrandt_portrait_sdxl16/checkpoint-700/sampler.bin
+11/29/2025 16:04:44 - INFO - accelerate.checkpointing - Random states saved in rembrandt_portrait_sdxl16/checkpoint-700/random_states_0.pkl
+11/29/2025 16:04:44 - INFO - __main__ - Saved state to rembrandt_portrait_sdxl16/checkpoint-700
+Steps: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 700/700 [31:45<00:00,  2.54s/it, loss=0.304, lr=0.0001]Model weights saved in rembrandt_portrait_sdxl16/pytorch_lora_weights.safetensors
