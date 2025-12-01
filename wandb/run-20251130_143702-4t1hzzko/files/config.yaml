@@ -1,0 +1,115 @@
+_wandb:
+    value:
+        cli_version: 0.22.3
+        e:
+            kg96axr8c8rvgbslc6zgj6uqztasa6qi:
+                args:
+                    - --pretrained_model_name_or_path=CompVis/stable-diffusion-v1-4
+                    - --embeddings_parquet=embeddings_sd.parquet
+                    - --images_parquet=data/rembrandt_portrait_resized.parquet
+                    - --image_column=image_path
+                    - --output_dir=output_lora_sd
+                    - --train_batch_size=1
+                    - --num_train_epochs=70
+                    - --rank=4
+                    - --report_to
+                    - wandb
+                codePath: train_sd_lora.py
+                codePathLocal: train_sd_lora.py
+                cpu_count: 8
+                cpu_count_logical: 12
+                cudaVersion: "13.0"
+                disk:
+                    /:
+                        total: "498403901440"
+                        used: "279716134912"
+                email: jose.mauricio.jr@icloud.com
+                executable: /home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/bin/python
+                git:
+                    commit: efbe25afb6576833cdaf69ec6829cd83207a30dc
+                    remote: https://github.com/SkynetEyes/GenerativeDiffusionModels.git
+                gpu: NVIDIA GeForce RTX 4050 Laptop GPU
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ada
+                      cudaCores: 2560
+                      memoryTotal: "6439305216"
+                      name: NVIDIA GeForce RTX 4050 Laptop GPU
+                      uuid: GPU-46cd4c5a-718c-effe-7e0c-d15dfa52fafd
+                host: fedora
+                memory:
+                    total: "24875491328"
+                os: Linux-6.17.7-200.fc42.x86_64-x86_64-with-glibc2.41
+                program: /home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/train_sd_lora.py
+                python: CPython 3.13.9
+                root: /home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels
+                startedAt: "2025-11-30T17:37:02.015469Z"
+                writerId: kg96axr8c8rvgbslc6zgj6uqztasa6qi
+        m: []
+        python_version: 3.13.9
+        t:
+            "1":
+                - 1
+                - 11
+                - 41
+                - 49
+                - 71
+                - 83
+                - 98
+            "2":
+                - 1
+                - 11
+                - 41
+                - 49
+                - 71
+                - 83
+                - 98
+            "4": 3.13.9
+            "5": 0.22.3
+            "6": 4.57.1
+            "12": 0.22.3
+            "13": linux-x86_64
+adam_beta1:
+    value: 0.9
+adam_beta2:
+    value: 0.999
+adam_epsilon:
+    value: 1e-08
+adam_weight_decay:
+    value: 0.0001
+center_crop:
+    value: false
+dataloader_num_workers:
+    value: 0
+embeddings_parquet:
+    value: embeddings_sd.parquet
+gradient_accumulation_steps:
+    value: 1
+gradient_checkpointing:
+    value: false
+image_column:
+    value: image_path
+images_parquet:
+    value: data/rembrandt_portrait_resized.parquet
+learning_rate:
+    value: 0.0001
+max_train_steps:
+    value: null
+mixed_precision:
+    value: null
+num_train_epochs:
+    value: 70
+output_dir:
+    value: output_lora_sd
+pretrained_model_name_or_path:
+    value: CompVis/stable-diffusion-v1-4
+rank:
+    value: 4
+report_to:
+    value: wandb
+resolution:
+    value: 512
+seed:
+    value: null
+train_batch_size:
+    value: 1

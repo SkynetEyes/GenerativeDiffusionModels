@@ -405,6 +405,8 @@ def parse_args(input_args=None):
         default=True,
         help="Turn on Adam's bias correction. True by default. Ignored if optimizer is adamW",
     )
+    parser.add_argument("--add_image_path", action="store_true", help="Adiciona coluna image_path ao parquet de embeddings automaticamente")
+    parser.add_argument("--image_path", type=str, default=None, help="Arquivo parquet de dados para adicionar coluna image_path ao embeddings")
     parser.add_argument(
         "--prodigy_safeguard_warmup",
         type=bool,
@@ -475,7 +477,6 @@ class DreamBoothDataset(Dataset):
     def __init__(
         self,
         data_df_path,
-        dataset_name,
         size=1024,
         max_sequence_length=77,
         center_crop=False,
@@ -489,22 +490,22 @@ class DreamBoothDataset(Dataset):
         if not self.data_df_path.exists():
             raise ValueError("`data_df_path` doesn't exists.")
 
-        # Load images.
-        dataset = load_dataset(dataset_name, split="train")
-        instance_images = [sample["image"] for sample in dataset]
-        image_hashes = [self.generate_image_hash(image) for image in instance_images]
-        self.instance_images = instance_images
-        self.image_hashes = image_hashes
+        # Carregar parquet local
+        import pandas as pd
+        from PIL import Image
+        df = pd.read_parquet(self.data_df_path)
+        self.instance_images = [Image.open(p).convert("RGB") for p in df["image_path"]]
+        self.image_hashes = df["image_hash"].tolist()
 
-        # Image transformations
+        # Transformações
         self.pixel_values = self.apply_image_transformations(
-            instance_images=instance_images, size=size, center_crop=center_crop
+            instance_images=self.instance_images, size=size, center_crop=center_crop
         )
 
-        # Map hashes to embeddings.
+        # Mapear hashes para embeddings
         self.data_dict = self.map_image_hash_embedding(data_df_path=data_df_path)
 
-        self.num_instance_images = len(instance_images)
+        self.num_instance_images = len(self.instance_images)
         self._length = self.num_instance_images
 
     def __len__(self):
@@ -628,6 +629,18 @@ def collate_fn(examples):
 
 
 def main(args):
+    if getattr(args, "add_image_path", False):
+        if args.image_path is None:
+            raise ValueError("Você deve passar --image_path com o caminho do parquet de dados.")
+        try:
+            df_emb = pd.read_parquet(args.data_df_path)
+            df_data = pd.read_parquet(args.image_path)
+            if "image_path" not in df_emb.columns:
+                df_emb = df_emb.merge(df_data[["image_hash", "image_path"]], on="image_hash", how="left")
+                df_emb.to_parquet(args.data_df_path)
+                print(f"✅ Coluna image_path adicionada ao {args.data_df_path}")
+        except Exception as e:
+            print(f"❌ Erro ao adicionar image_path: {e}")
     if args.report_to == "wandb" and args.hub_token is not None:
         raise ValueError(
             "You cannot use both --report_to=wandb and --hub_token due to a security risk of exposing your token."
@@ -939,7 +952,6 @@ def main(args):
     # Dataset and DataLoaders creation:
     train_dataset = DreamBoothDataset(
         data_df_path=args.data_df_path,
-        dataset_name="Norod78/Yarn-art-style",
         size=args.resolution,
         max_sequence_length=args.max_sequence_length,
         center_crop=args.center_crop,

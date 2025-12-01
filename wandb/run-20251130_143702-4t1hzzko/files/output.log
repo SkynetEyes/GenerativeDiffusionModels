@@ -1,0 +1,142 @@
+100%|█████████████████████████████████████████████████████████████████████████████| 10/10 [01:55<00:00, 11.51s/it]
+/home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/venv/lib64/python3.13/site-packages/diffusers/loaders/unet.py:484: FutureWarning: `save_attn_procs` is deprecated and will be removed in version 0.40.0. Using the `save_attn_procs()` method has been deprecated and will be removed in a future version. Please use `save_lora_adapter()`.
+  deprecate("save_attn_procs", "0.40.0", deprecation_message)
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|█████████████████████████████████████████████████████████████████████████████| 10/10 [01:53<00:00, 11.38s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|█████████████████████████████████████████████████████████████████████████████| 10/10 [01:48<00:00, 10.89s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|█████████████████████████████████████████████████████████████████████████████| 10/10 [01:55<00:00, 11.52s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|█████████████████████████████████████████████████████████████████████████████| 10/10 [02:01<00:00, 12.20s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|█████████████████████████████████████████████████████████████████████████████| 10/10 [02:04<00:00, 12.46s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|█████████████████████████████████████████████████████████████████████████████| 10/10 [02:09<00:00, 12.99s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|█████████████████████████████████████████████████████████████████████████████| 10/10 [02:01<00:00, 12.10s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:07<00:00, 12.70s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:59<00:00, 11.93s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:53<00:00, 11.37s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:52<00:00, 11.26s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:58<00:00, 11.81s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:57<00:00, 11.77s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:55<00:00, 11.53s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:53<00:00, 11.37s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:51<00:00, 11.18s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:49<00:00, 11.00s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:51<00:00, 11.19s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:50<00:00, 11.03s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:55<00:00, 11.54s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:52<00:00, 11.29s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:56<00:00, 11.62s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:58<00:00, 11.89s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:59<00:00, 11.95s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:59<00:00, 11.95s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:01<00:00, 12.11s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:05<00:00, 12.54s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:09<00:00, 12.90s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:01<00:00, 12.14s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:02<00:00, 12.28s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:01<00:00, 12.18s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:01<00:00, 12.16s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:07<00:00, 12.73s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:13<00:00, 13.30s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:09<00:00, 12.94s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:04<00:00, 12.43s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:07<00:00, 12.78s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [03:24<00:00, 20.44s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [03:41<00:00, 22.20s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [03:51<00:00, 23.19s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [03:57<00:00, 23.77s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [03:49<00:00, 22.92s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:20<00:00, 14.02s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:14<00:00, 13.42s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:14<00:00, 13.44s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:08<00:00, 12.84s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:09<00:00, 12.93s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:13<00:00, 13.33s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:14<00:00, 13.46s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:27<00:00, 14.77s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:17<00:00, 13.79s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:02<00:00, 12.20s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:55<00:00, 11.56s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:59<00:00, 11.99s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:03<00:00, 12.34s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:07<00:00, 12.79s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:03<00:00, 12.34s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:04<00:00, 12.48s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:00<00:00, 12.04s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:01<00:00, 12.18s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:58<00:00, 11.88s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:58<00:00, 11.85s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:57<00:00, 11.76s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:57<00:00, 11.76s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:57<00:00, 11.75s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:58<00:00, 11.80s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:55<00:00, 11.56s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [01:57<00:00, 11.72s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.
+100%|████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [02:02<00:00, 12.27s/it]
+Treinamento finalizado e LoRA salvo corretamente para SD.

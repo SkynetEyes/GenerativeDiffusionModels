@@ -18,15 +18,15 @@ python compute_embeddings.py \
 Run the training with accelerate
 ```bash
 accelerate launch --config_file=accelerate.yaml\
-  train.py \
+  train_sdxl.py \
   --pretrained_model_name_or_path="stabilityai/stable-diffusion-xl-base-1.0" \
   --data_df_path="embeddings.parquet" \
-  --output_dir="results" \
+  --output_dir="rembrant_barroco_sdxl" \
   --mixed_precision="bf16" \
   --use_8bit_adam \
   --weighting_scheme="none" \
   --width=512 \
-  --height=768 \
+  --height=512 \
   --train_batch_size=1 \
   --repeats=1 \
   --learning_rate=1e-4 \

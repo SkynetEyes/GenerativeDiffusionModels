@@ -1,0 +1,58 @@
+11/30/2025 23:23:47 - INFO - __main__ - ***** Running training *****
+11/30/2025 23:23:47 - INFO - __main__ -   Num examples = 9
+11/30/2025 23:23:47 - INFO - __main__ -   Num batches each epoch = 9
+11/30/2025 23:23:47 - INFO - __main__ -   Num Epochs = 234
+11/30/2025 23:23:47 - INFO - __main__ -   Instantaneous batch size per device = 1
+11/30/2025 23:23:47 - INFO - __main__ -   Total train batch size (w. parallel, distributed & accumulation) = 4
+11/30/2025 23:23:47 - INFO - __main__ -   Gradient Accumulation steps = 4
+11/30/2025 23:23:47 - INFO - __main__ -   Total optimization steps = 700
+Steps:  14%|███████████████▍                                                                                            | 100/700 [03:25<21:30,  2.15s/it, loss=0.418, lr=0.0001]11/30/2025 23:27:12 - INFO - accelerate.accelerator - Saving current state to vangogh_portrait/checkpoint-100
+Model weights saved in vangogh_portrait/checkpoint-100/pytorch_lora_weights.safetensors
+11/30/2025 23:27:13 - INFO - accelerate.checkpointing - Optimizer state saved in vangogh_portrait/checkpoint-100/optimizer.bin
+11/30/2025 23:27:13 - INFO - accelerate.checkpointing - Scheduler state saved in vangogh_portrait/checkpoint-100/scheduler.bin
+11/30/2025 23:27:13 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in vangogh_portrait/checkpoint-100/sampler.bin
+11/30/2025 23:27:13 - INFO - accelerate.checkpointing - Random states saved in vangogh_portrait/checkpoint-100/random_states_0.pkl
+11/30/2025 23:27:13 - INFO - __main__ - Saved state to vangogh_portrait/checkpoint-100
+Steps:  29%|██████████████████████████████▌                                                                            | 200/700 [07:00<19:26,  2.33s/it, loss=0.0142, lr=0.0001]11/30/2025 23:30:48 - INFO - accelerate.accelerator - Saving current state to vangogh_portrait/checkpoint-200
+Model weights saved in vangogh_portrait/checkpoint-200/pytorch_lora_weights.safetensors
+11/30/2025 23:30:48 - INFO - accelerate.checkpointing - Optimizer state saved in vangogh_portrait/checkpoint-200/optimizer.bin
+11/30/2025 23:30:48 - INFO - accelerate.checkpointing - Scheduler state saved in vangogh_portrait/checkpoint-200/scheduler.bin
+11/30/2025 23:30:48 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in vangogh_portrait/checkpoint-200/sampler.bin
+11/30/2025 23:30:48 - INFO - accelerate.checkpointing - Random states saved in vangogh_portrait/checkpoint-200/random_states_0.pkl
+11/30/2025 23:30:48 - INFO - __main__ - Saved state to vangogh_portrait/checkpoint-200
+Steps:  43%|██████████████████████████████████████████████▋                                                              | 300/700 [10:49<13:04,  1.96s/it, loss=0.02, lr=0.0001]11/30/2025 23:34:36 - INFO - accelerate.accelerator - Saving current state to vangogh_portrait/checkpoint-300
+Model weights saved in vangogh_portrait/checkpoint-300/pytorch_lora_weights.safetensors
+11/30/2025 23:34:37 - INFO - accelerate.checkpointing - Optimizer state saved in vangogh_portrait/checkpoint-300/optimizer.bin
+11/30/2025 23:34:37 - INFO - accelerate.checkpointing - Scheduler state saved in vangogh_portrait/checkpoint-300/scheduler.bin
+11/30/2025 23:34:37 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in vangogh_portrait/checkpoint-300/sampler.bin
+11/30/2025 23:34:37 - INFO - accelerate.checkpointing - Random states saved in vangogh_portrait/checkpoint-300/random_states_0.pkl
+11/30/2025 23:34:37 - INFO - __main__ - Saved state to vangogh_portrait/checkpoint-300
+Steps:  57%|█████████████████████████████████████████████████████████████▋                                              | 400/700 [14:31<11:06,  2.22s/it, loss=0.313, lr=0.0001]11/30/2025 23:38:19 - INFO - accelerate.accelerator - Saving current state to vangogh_portrait/checkpoint-400
+Model weights saved in vangogh_portrait/checkpoint-400/pytorch_lora_weights.safetensors
+11/30/2025 23:38:19 - INFO - accelerate.checkpointing - Optimizer state saved in vangogh_portrait/checkpoint-400/optimizer.bin
+11/30/2025 23:38:19 - INFO - accelerate.checkpointing - Scheduler state saved in vangogh_portrait/checkpoint-400/scheduler.bin
+11/30/2025 23:38:19 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in vangogh_portrait/checkpoint-400/sampler.bin
+11/30/2025 23:38:19 - INFO - accelerate.checkpointing - Random states saved in vangogh_portrait/checkpoint-400/random_states_0.pkl
+11/30/2025 23:38:19 - INFO - __main__ - Saved state to vangogh_portrait/checkpoint-400
+Steps:  71%|█████████████████████████████████████████████████████████████████████████████▏                              | 500/700 [18:20<09:06,  2.73s/it, loss=0.012, lr=0.0001]11/30/2025 23:42:07 - INFO - accelerate.accelerator - Saving current state to vangogh_portrait/checkpoint-500
+Model weights saved in vangogh_portrait/checkpoint-500/pytorch_lora_weights.safetensors
+11/30/2025 23:42:08 - INFO - accelerate.checkpointing - Optimizer state saved in vangogh_portrait/checkpoint-500/optimizer.bin
+11/30/2025 23:42:08 - INFO - accelerate.checkpointing - Scheduler state saved in vangogh_portrait/checkpoint-500/scheduler.bin
+11/30/2025 23:42:08 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in vangogh_portrait/checkpoint-500/sampler.bin
+11/30/2025 23:42:08 - INFO - accelerate.checkpointing - Random states saved in vangogh_portrait/checkpoint-500/random_states_0.pkl
+11/30/2025 23:42:08 - INFO - __main__ - Saved state to vangogh_portrait/checkpoint-500
+Steps:  86%|████████████████████████████████████████████████████████████████████████████████████████████▌               | 600/700 [22:19<03:30,  2.11s/it, loss=0.325, lr=0.0001]11/30/2025 23:46:07 - INFO - accelerate.accelerator - Saving current state to vangogh_portrait/checkpoint-600
+Model weights saved in vangogh_portrait/checkpoint-600/pytorch_lora_weights.safetensors
+11/30/2025 23:46:07 - INFO - accelerate.checkpointing - Optimizer state saved in vangogh_portrait/checkpoint-600/optimizer.bin
+11/30/2025 23:46:07 - INFO - accelerate.checkpointing - Scheduler state saved in vangogh_portrait/checkpoint-600/scheduler.bin
+11/30/2025 23:46:07 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in vangogh_portrait/checkpoint-600/sampler.bin
+11/30/2025 23:46:07 - INFO - accelerate.checkpointing - Random states saved in vangogh_portrait/checkpoint-600/random_states_0.pkl
+11/30/2025 23:46:07 - INFO - __main__ - Saved state to vangogh_portrait/checkpoint-600
+Steps: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 700/700 [26:05<00:00,  2.14s/it, loss=0.122, lr=0.0001]11/30/2025 23:49:53 - INFO - accelerate.accelerator - Saving current state to vangogh_portrait/checkpoint-700
+Model weights saved in vangogh_portrait/checkpoint-700/pytorch_lora_weights.safetensors
+11/30/2025 23:49:53 - INFO - accelerate.checkpointing - Optimizer state saved in vangogh_portrait/checkpoint-700/optimizer.bin
+11/30/2025 23:49:53 - INFO - accelerate.checkpointing - Scheduler state saved in vangogh_portrait/checkpoint-700/scheduler.bin
+11/30/2025 23:49:53 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in vangogh_portrait/checkpoint-700/sampler.bin
+11/30/2025 23:49:53 - INFO - accelerate.checkpointing - Random states saved in vangogh_portrait/checkpoint-700/random_states_0.pkl
+11/30/2025 23:49:53 - INFO - __main__ - Saved state to vangogh_portrait/checkpoint-700
+Steps: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 700/700 [26:06<00:00,  2.14s/it, loss=0.225, lr=0.0001]Model weights saved in vangogh_portrait/pytorch_lora_weights.safetensors

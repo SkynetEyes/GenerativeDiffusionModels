@@ -66,9 +66,21 @@ def compute_embeddings(pipeline, prompts, max_sequence_length):
 
 
 def run(args):
-    dataset = load_dataset("Norod78/Yarn-art-style", split="train")
-    image_prompts = {generate_image_hash(sample["image"]): sample["text"] for sample in dataset}
-    all_prompts = list(image_prompts.values())
+    # Carregar prompts do parquet existente
+    df_in = pd.read_parquet(args.input_parquet)
+    print(f"Carregado parquet: {args.input_parquet} ({len(df_in)} linhas)")
+    
+    # Supondo que o parquet tem colunas: 'image_hash' e 'text' (ou 'prompt')
+    if "text" in df_in.columns:
+        all_prompts = df_in["text"].tolist()
+    elif "prompt" in df_in.columns:
+        all_prompts = df_in["prompt"].tolist()
+    elif "label" in df_in.columns:
+        all_prompts = df_in["label"].tolist()
+    else:
+        raise ValueError("O parquet precisa ter uma coluna 'text' ou 'prompt'.")
+    
+    image_hashes = df_in["image_hash"].tolist() if "image_hash" in df_in.columns else list(range(len(df_in)))
     print(f"{len(all_prompts)=}")
 
     pipeline = load_flux_dev_pipeline()
@@ -77,7 +89,7 @@ def run(args):
     )
 
     data = []
-    for i, (image_hash, _) in enumerate(image_prompts.items()):
+    for i, image_hash in enumerate(image_hashes):
         data.append((image_hash, all_prompt_embeds[i], all_pooled_prompt_embeds[i], all_text_ids[i]))
     print(f"{len(data)=}")
 
@@ -92,14 +104,12 @@ def run(args):
             return None
         if isinstance(x, torch.Tensor):
             x = x.cpu().numpy()
-            # Remove batch dimension if present
             if x.ndim == 3 and x.shape[0] == 1:
                 x = x[0]
             elif x.ndim == 2 and x.shape[0] == 1:
                 x = x[0]
-            return x.tolist()  # Converter para lista para parquet storage
+            return x.tolist()
         if isinstance(x, np.ndarray):
-            # Remove batch dimension if present
             if x.ndim == 3 and x.shape[0] == 1:
                 x = x[0]
             elif x.ndim == 2 and x.shape[0] == 1:
@@ -116,16 +126,10 @@ def run(args):
     df.to_parquet(args.output_path)
     print(f"Data successfully serialized to {args.output_path}")
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--max_sequence_length",
-        type=int,
-        default=MAX_SEQ_LENGTH,
-        help="Maximum sequence length to use for computing the embeddings. The more the higher computational costs.",
-    )
-    parser.add_argument("--output_path", type=str, default=OUTPUT_PATH, help="Path to serialize the parquet file.")
+    parser.add_argument("--input_parquet", type=str, required=True, help="Arquivo parquet de entrada com prompts.")
+    parser.add_argument("--max_sequence_length", type=int, default=MAX_SEQ_LENGTH)
+    parser.add_argument("--output_path", type=str, default=OUTPUT_PATH)
     args = parser.parse_args()
-
     run(args)

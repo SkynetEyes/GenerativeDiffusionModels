@@ -1,0 +1,58 @@
+11/29/2025 13:44:38 - INFO - __main__ - ***** Running training *****
+11/29/2025 13:44:38 - INFO - __main__ -   Num examples = 6
+11/29/2025 13:44:38 - INFO - __main__ -   Num batches each epoch = 6
+11/29/2025 13:44:38 - INFO - __main__ -   Num Epochs = 350
+11/29/2025 13:44:38 - INFO - __main__ -   Instantaneous batch size per device = 1
+11/29/2025 13:44:38 - INFO - __main__ -   Total train batch size (w. parallel, distributed & accumulation) = 4
+11/29/2025 13:44:38 - INFO - __main__ -   Gradient Accumulation steps = 4
+11/29/2025 13:44:38 - INFO - __main__ -   Total optimization steps = 700
+Steps:  14%|█████████████████▎                                                                                                       | 100/700 [04:01<20:05,  2.01s/it, loss=0.00421, lr=0.0001]11/29/2025 13:48:39 - INFO - accelerate.accelerator - Saving current state to rembrant_barroco_sdxl/checkpoint-100
+Model weights saved in rembrant_barroco_sdxl/checkpoint-100/pytorch_lora_weights.safetensors
+11/29/2025 13:48:40 - INFO - accelerate.checkpointing - Optimizer state saved in rembrant_barroco_sdxl/checkpoint-100/optimizer.bin
+11/29/2025 13:48:40 - INFO - accelerate.checkpointing - Scheduler state saved in rembrant_barroco_sdxl/checkpoint-100/scheduler.bin
+11/29/2025 13:48:40 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in rembrant_barroco_sdxl/checkpoint-100/sampler.bin
+11/29/2025 13:48:40 - INFO - accelerate.checkpointing - Random states saved in rembrant_barroco_sdxl/checkpoint-100/random_states_0.pkl
+11/29/2025 13:48:40 - INFO - __main__ - Saved state to rembrant_barroco_sdxl/checkpoint-100
+Steps:  29%|██████████████████████████████████▌                                                                                      | 200/700 [07:47<16:48,  2.02s/it, loss=0.00263, lr=0.0001]11/29/2025 13:52:26 - INFO - accelerate.accelerator - Saving current state to rembrant_barroco_sdxl/checkpoint-200
+Model weights saved in rembrant_barroco_sdxl/checkpoint-200/pytorch_lora_weights.safetensors
+11/29/2025 13:52:26 - INFO - accelerate.checkpointing - Optimizer state saved in rembrant_barroco_sdxl/checkpoint-200/optimizer.bin
+11/29/2025 13:52:26 - INFO - accelerate.checkpointing - Scheduler state saved in rembrant_barroco_sdxl/checkpoint-200/scheduler.bin
+11/29/2025 13:52:26 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in rembrant_barroco_sdxl/checkpoint-200/sampler.bin
+11/29/2025 13:52:26 - INFO - accelerate.checkpointing - Random states saved in rembrant_barroco_sdxl/checkpoint-200/random_states_0.pkl
+11/29/2025 13:52:26 - INFO - __main__ - Saved state to rembrant_barroco_sdxl/checkpoint-200
+Steps:  43%|████████████████████████████████████████████████████▎                                                                     | 300/700 [11:24<13:24,  2.01s/it, loss=0.0232, lr=0.0001]11/29/2025 13:56:03 - INFO - accelerate.accelerator - Saving current state to rembrant_barroco_sdxl/checkpoint-300
+Model weights saved in rembrant_barroco_sdxl/checkpoint-300/pytorch_lora_weights.safetensors
+11/29/2025 13:56:03 - INFO - accelerate.checkpointing - Optimizer state saved in rembrant_barroco_sdxl/checkpoint-300/optimizer.bin
+11/29/2025 13:56:03 - INFO - accelerate.checkpointing - Scheduler state saved in rembrant_barroco_sdxl/checkpoint-300/scheduler.bin
+11/29/2025 13:56:03 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in rembrant_barroco_sdxl/checkpoint-300/sampler.bin
+11/29/2025 13:56:03 - INFO - accelerate.checkpointing - Random states saved in rembrant_barroco_sdxl/checkpoint-300/random_states_0.pkl
+11/29/2025 13:56:03 - INFO - __main__ - Saved state to rembrant_barroco_sdxl/checkpoint-300
+Steps:  57%|█████████████████████████████████████████████████████████████████████▏                                                   | 400/700 [15:04<10:11,  2.04s/it, loss=0.00406, lr=0.0001]11/29/2025 13:59:42 - INFO - accelerate.accelerator - Saving current state to rembrant_barroco_sdxl/checkpoint-400
+Model weights saved in rembrant_barroco_sdxl/checkpoint-400/pytorch_lora_weights.safetensors
+11/29/2025 13:59:43 - INFO - accelerate.checkpointing - Optimizer state saved in rembrant_barroco_sdxl/checkpoint-400/optimizer.bin
+11/29/2025 13:59:43 - INFO - accelerate.checkpointing - Scheduler state saved in rembrant_barroco_sdxl/checkpoint-400/scheduler.bin
+11/29/2025 13:59:43 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in rembrant_barroco_sdxl/checkpoint-400/sampler.bin
+11/29/2025 13:59:43 - INFO - accelerate.checkpointing - Random states saved in rembrant_barroco_sdxl/checkpoint-400/random_states_0.pkl
+11/29/2025 13:59:43 - INFO - __main__ - Saved state to rembrant_barroco_sdxl/checkpoint-400
+Steps:  71%|███████████████████████████████████████████████████████████████████████████████████████▊                                   | 500/700 [18:43<07:39,  2.30s/it, loss=0.366, lr=0.0001]11/29/2025 14:03:21 - INFO - accelerate.accelerator - Saving current state to rembrant_barroco_sdxl/checkpoint-500
+Model weights saved in rembrant_barroco_sdxl/checkpoint-500/pytorch_lora_weights.safetensors
+11/29/2025 14:03:21 - INFO - accelerate.checkpointing - Optimizer state saved in rembrant_barroco_sdxl/checkpoint-500/optimizer.bin
+11/29/2025 14:03:21 - INFO - accelerate.checkpointing - Scheduler state saved in rembrant_barroco_sdxl/checkpoint-500/scheduler.bin
+11/29/2025 14:03:21 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in rembrant_barroco_sdxl/checkpoint-500/sampler.bin
+11/29/2025 14:03:21 - INFO - accelerate.checkpointing - Random states saved in rembrant_barroco_sdxl/checkpoint-500/random_states_0.pkl
+11/29/2025 14:03:21 - INFO - __main__ - Saved state to rembrant_barroco_sdxl/checkpoint-500
+Steps:  86%|█████████████████████████████████████████████████████████████████████████████████████████████████████████▍                 | 600/700 [23:00<04:06,  2.46s/it, loss=0.343, lr=0.0001]11/29/2025 14:07:39 - INFO - accelerate.accelerator - Saving current state to rembrant_barroco_sdxl/checkpoint-600
+Model weights saved in rembrant_barroco_sdxl/checkpoint-600/pytorch_lora_weights.safetensors
+11/29/2025 14:07:39 - INFO - accelerate.checkpointing - Optimizer state saved in rembrant_barroco_sdxl/checkpoint-600/optimizer.bin
+11/29/2025 14:07:39 - INFO - accelerate.checkpointing - Scheduler state saved in rembrant_barroco_sdxl/checkpoint-600/scheduler.bin
+11/29/2025 14:07:39 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in rembrant_barroco_sdxl/checkpoint-600/sampler.bin
+11/29/2025 14:07:39 - INFO - accelerate.checkpointing - Random states saved in rembrant_barroco_sdxl/checkpoint-600/random_states_0.pkl
+11/29/2025 14:07:39 - INFO - __main__ - Saved state to rembrant_barroco_sdxl/checkpoint-600
+Steps: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 700/700 [27:18<00:00,  2.13s/it, loss=0.357, lr=0.0001]11/29/2025 14:11:56 - INFO - accelerate.accelerator - Saving current state to rembrant_barroco_sdxl/checkpoint-700
+Model weights saved in rembrant_barroco_sdxl/checkpoint-700/pytorch_lora_weights.safetensors
+11/29/2025 14:11:56 - INFO - accelerate.checkpointing - Optimizer state saved in rembrant_barroco_sdxl/checkpoint-700/optimizer.bin
+11/29/2025 14:11:56 - INFO - accelerate.checkpointing - Scheduler state saved in rembrant_barroco_sdxl/checkpoint-700/scheduler.bin
+11/29/2025 14:11:56 - INFO - accelerate.checkpointing - Sampler state for dataloader 0 saved in rembrant_barroco_sdxl/checkpoint-700/sampler.bin
+11/29/2025 14:11:56 - INFO - accelerate.checkpointing - Random states saved in rembrant_barroco_sdxl/checkpoint-700/random_states_0.pkl
+11/29/2025 14:11:56 - INFO - __main__ - Saved state to rembrant_barroco_sdxl/checkpoint-700
+Steps: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 700/700 [27:18<00:00,  2.13s/it, loss=0.081, lr=0.0001]Model weights saved in rembrant_barroco_sdxl/pytorch_lora_weights.safetensors

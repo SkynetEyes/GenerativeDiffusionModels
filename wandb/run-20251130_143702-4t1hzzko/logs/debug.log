@@ -1,0 +1,24 @@
+2025-11-30 14:37:02,016 INFO    MainThread:31447 [wandb_setup.py:_flush():81] Current SDK version is 0.22.3
+2025-11-30 14:37:02,016 INFO    MainThread:31447 [wandb_setup.py:_flush():81] Configure stats pid to 31447
+2025-11-30 14:37:02,016 INFO    MainThread:31447 [wandb_setup.py:_flush():81] Loading settings from /home/jmvjr/.config/wandb/settings
+2025-11-30 14:37:02,016 INFO    MainThread:31447 [wandb_setup.py:_flush():81] Loading settings from /home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/wandb/settings
+2025-11-30 14:37:02,016 INFO    MainThread:31447 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2025-11-30 14:37:02,016 INFO    MainThread:31447 [wandb_init.py:setup_run_log_directory():706] Logging user logs to /home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/wandb/run-20251130_143702-4t1hzzko/logs/debug.log
+2025-11-30 14:37:02,016 INFO    MainThread:31447 [wandb_init.py:setup_run_log_directory():707] Logging internal logs to /home/jmvjr/Documentos/unicamp/MC949/GenerativeDiffusionModels/wandb/run-20251130_143702-4t1hzzko/logs/debug-internal.log
+2025-11-30 14:37:02,016 INFO    MainThread:31447 [wandb_init.py:init():833] calling init triggers
+2025-11-30 14:37:02,016 INFO    MainThread:31447 [wandb_init.py:init():838] wandb.init called with sweep_config: {}
+config: {'_wandb': {}}
+2025-11-30 14:37:02,016 INFO    MainThread:31447 [wandb_init.py:init():881] starting backend
+2025-11-30 14:37:02,221 INFO    MainThread:31447 [wandb_init.py:init():884] sending inform_init request
+2025-11-30 14:37:02,225 INFO    MainThread:31447 [wandb_init.py:init():892] backend started and connected
+2025-11-30 14:37:02,226 INFO    MainThread:31447 [wandb_init.py:init():962] updated telemetry
+2025-11-30 14:37:02,229 INFO    MainThread:31447 [wandb_init.py:init():986] communicating run to backend with 90.0 second timeout
+2025-11-30 14:37:02,934 INFO    MainThread:31447 [wandb_init.py:init():1033] starting run threads in backend
+2025-11-30 14:37:03,049 INFO    MainThread:31447 [wandb_run.py:_console_start():2506] atexit reg
+2025-11-30 14:37:03,049 INFO    MainThread:31447 [wandb_run.py:_redirect():2354] redirect: wrap_raw
+2025-11-30 14:37:03,049 INFO    MainThread:31447 [wandb_run.py:_redirect():2423] Wrapping output streams.
+2025-11-30 14:37:03,049 INFO    MainThread:31447 [wandb_run.py:_redirect():2446] Redirects installed.
+2025-11-30 14:37:03,051 INFO    MainThread:31447 [wandb_init.py:init():1073] run started, returning control to user process
+2025-11-30 14:37:03,051 INFO    MainThread:31447 [wandb_run.py:_config_callback():1390] config_cb None None {'pretrained_model_name_or_path': 'CompVis/stable-diffusion-v1-4', 'embeddings_parquet': 'embeddings_sd.parquet', 'images_parquet': 'data/rembrandt_portrait_resized.parquet', 'image_column': 'image_path', 'output_dir': 'output_lora_sd', 'resolution': 512, 'center_crop': False, 'train_batch_size': 1, 'learning_rate': 0.0001, 'num_train_epochs': 70, 'max_train_steps': None, 'gradient_accumulation_steps': 1, 'adam_beta1': 0.9, 'adam_beta2': 0.999, 'adam_weight_decay': 0.0001, 'adam_epsilon': 1e-08, 'rank': 4, 'mixed_precision': None, 'report_to': 'wandb', 'dataloader_num_workers': 0, 'seed': None, 'gradient_checkpointing': False}
+2025-11-30 17:08:01,153 INFO    wandb-AsyncioManager-main:31447 [service_client.py:_forward_responses():80] Reached EOF.
+2025-11-30 17:08:01,153 INFO    wandb-AsyncioManager-main:31447 [mailbox.py:close():137] Closing mailbox, abandoning 1 handles.
