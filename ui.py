@@ -1,4 +1,5 @@
 # app.py
+from scipy import io
 import streamlit as st
 import torch
 from diffusers import BitsAndBytesConfig, UNet2DConditionModel
@@ -10,6 +11,7 @@ from diffusers import StableDiffusionXLAdapterPipeline, T2IAdapter, EulerAncestr
 from controlnet_aux import CannyDetector, OpenposeDetector, MidasDetector, PidiNetDetector, LineartDetector
 from typing import List, Dict, Any
 import os
+import io
 
 
 # ---------------- CONFIG ----------------
@@ -253,6 +255,15 @@ def get_preprocessor(name: str):
     st.session_state.preprocessors[name] = proc
     return proc
 
+def sidebar_preprocess_images(ref_image, selected_controls):
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### Ajustes de Geração")
+    inference_steps = st.sidebar.slider("Número de passos de inferência", min_value=10, max_value=100, value=30, step=5)
+    guidance_scale = st.sidebar.slider("Escala de orientação", min_value=1.0, max_value=20.0, value=7.5, step=0.5)
+    adapter_conditioning_scale = st.sidebar.slider("Escala de condicionamento do adapter", min_value=0.0, max_value=2.0, value=0.8, step=0.1)
+    adapter_conditioning_factor = st.sidebar.slider("Fator de condicionamento do adapter", min_value=0.0, max_value=2.0, value=1.0, step=0.1)
+    return inference_steps, guidance_scale, adapter_conditioning_scale, adapter_conditioning_factor
+
 def preprocess_images(ref_image, selected_controls):
     """
     Retorna lista de PIL.Image (RGB), uma por control selecionado, na mesma ordem de selected_controls.
@@ -300,7 +311,7 @@ def preprocess_images(ref_image, selected_controls):
 
     return outputs
 # ----------------- Geração única (pipeline cacheada por lista de controlnets) -----------------
-def generate_image(prompt: str, cond_images: List[np.ndarray], selected_controls: List[str], selected_size: int, seed: int = 123):
+def generate_image(prompt: str, cond_images: List[np.ndarray], selected_controls: List[str], selected_size: int, seed: int = 0, num_inference_steps: int = 30, guidance_scale: float = 7.5, adapter_conditioning_scale: float = 0.8, adapter_conditioning_factor: float = 1.0):
     # Adiciona sufixo de estilo ao prompt conforme seleção
     style_suffixes = {
         'Yarn': ', yarn art style.',
@@ -363,10 +374,10 @@ def generate_image(prompt: str, cond_images: List[np.ndarray], selected_controls
             image=image_arg,
             height=selected_size,
             width=selected_size,
-            num_inference_steps=30,
-            guidance_scale=7.5,
-            adapter_conditioning_scale=0.8,
-            adapter_conditioning_factor=1,
+            num_inference_steps=inference_steps,
+            guidance_scale=guidance_scale,
+            adapter_conditioning_scale=adapter_conditioning_scale,
+            adapter_conditioning_factor=adapter_conditioning_factor,
             generator=generator,
         )
     # resultado é um objeto PipelineOutput; images disponível em .images
@@ -401,6 +412,8 @@ _ = styles_ui()
 # Render size selector once in main layout
 selected_size = size_selector_ui()
 
+inference_steps, guidance_scale, adapter_conditioning_scale, adapter_conditioning_factor = sidebar_preprocess_images(st.session_state.ref_image, list(st.session_state.selected_controls))
+
 st.markdown("---")
 st.markdown("### Prompt")
 prompt = st.text_input(label="Prompt", value="A fantasy portrait, cinematic lighting")
@@ -433,8 +446,29 @@ if st.button("Gerar imagem", type="primary"):
 
     with st.spinner("Gerando imagem (isso usa GPU/CPU e pode levar alguns segundos)..."):
         try:
-            final = generate_image(prompt, cond_images, list(st.session_state.selected_controls), selected_size)
+            final = generate_image(
+                prompt,
+                cond_images,
+                list(st.session_state.selected_controls),
+                selected_size,
+                seed=0,
+                num_inference_steps=inference_steps,
+                guidance_scale=guidance_scale,
+                adapter_conditioning_scale=adapter_conditioning_scale,
+                adapter_conditioning_factor=adapter_conditioning_factor
+            )
             st.image(final, caption="Imagem Final", width=selected_size)
+            img_bytes = io.BytesIO()
+            final.save(img_bytes, format="PNG")
+            img_bytes.seek(0)
+
+            # Botão de download
+            st.download_button(
+                label="Baixar imagem",
+                data=img_bytes,
+                file_name="imagem_gerada.png",
+                mime="image/png"
+            )
             gc.collect()
             torch.cuda.empty_cache()
         except Exception as e:
