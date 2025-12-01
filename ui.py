@@ -16,8 +16,10 @@ CKPT_ID = "stabilityai/stable-diffusion-xl-base-1.0"
 # Se você tiver pesos LoRA local (opcional)
 LORA_CONFIGS = {
     'Yarn':   { 'path': 'sdxl_yarn',      'filename': 'pytorch_lora_weights.safetensors' },
-    'Rembrandt': { 'path': 'rembrandt_portrait_sdxl', 'filename': 'pytorch_lora_weights.safetensors' },
-    'Van Gogh':  { 'path': 'vangogh_style',           'filename': 'pytorch_lora_weights.safetensors' },
+    'Rembrandt portrait': { 'path': 'rembrandt_portrait_sdxl', 'filename': 'pytorch_lora_weights.safetensors' },
+    'Rembrandt barroco': { 'path': 'rembrandt_barroco_sdxl', 'filename': 'pytorch_lora_weights.safetensors' },
+    'Van Gogh portrait':  { 'path': 'vangogh_portrait',           'filename': 'pytorch_lora_weights.safetensors' },
+    'Van Gogh style':    { 'path': 'vangogh_style',              'filename': 'pytorch_lora_weights.safetensors' },
 }
 
 # Detect device
@@ -30,6 +32,7 @@ ADAPTER_TYPES = {
         "model": "TencentARC/t2i-adapter-canny-sdxl-1.0",
         "pre_factory": lambda: CannyDetector(),
     },
+    
 }
 
 # ----------------- STREAMLIT PAGE CONFIG -----------------
@@ -76,26 +79,19 @@ def load_pipeline_with_adapter(base_model: str, adapter_list: List[str], torch_d
         bnb_4bit_quant_type="nf4",
         bnb_4bit_compute_dtype=torch.float16,
     )
-    # Configuração de quantização para o adapter
-    quant_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_compute_dtype=torch.float16,
-    )
     """
     Cria e retorna uma StableDiffusionAdapterPipeline com os adapters carregados.
     """
     # Inspirado no exemplo fornecido
     adapter = None
     if adapter_list:
-        # Carrega adapter com quantização
+        # Carrega adapter SEM quantização
         cfg = ADAPTER_TYPES.get(adapter_list[0])
         if cfg:
             model_id = cfg["model"]
             adapter = T2IAdapter.from_pretrained(
                 model_id,
-                torch_dtype=torch.float16,
-                quantization_config=quant_config
+                torch_dtype=torch.float16
             ).to(DEVICE)
     model_id = base_model
     vae = AutoencoderKL.from_pretrained("madebyollin/sdxl-vae-fp16-fix", torch_dtype=torch.float16)
@@ -275,11 +271,24 @@ def preprocess_images(ref_image, selected_controls):
             # Assegura uint8
             cond_arr = cond_arr.astype("uint8")
             cond_img = Image.fromarray(cond_arr).convert("RGB")
-        outputs.append(cond_img)
+    # Redimensiona imagem filtrada para 512x512 antes de mostrar
+    cond_img = cond_img.resize((512, 512))
+    outputs.append(cond_img)
 
     return outputs
 # ----------------- Geração única (pipeline cacheada por lista de controlnets) -----------------
 def generate_image(prompt: str, cond_images: List[np.ndarray], selected_controls: List[str], seed: int = 123):
+    # Adiciona sufixo de estilo ao prompt conforme seleção
+    style_suffixes = {
+        'Yarn': ', yarn style.',
+        'Rembrandt portrait': ', artstyle rembrandt.',
+        'Rembrandt barroco': ', artstyle rembrandt.',
+        'Van Gogh style': ', artstyle vangogh.',
+        'Van Gogh portrait': ', artstyle vangogh.'
+    }
+    selected_style = st.session_state.get('selected_style', None)
+    if selected_style in style_suffixes:
+        prompt = prompt.strip() + style_suffixes[selected_style]
     # Garantir que image_arg está definido antes de acessar shape
     if not cond_images or len(cond_images) == 0:
         st.error("Você precisa fornecer uma imagem de referência para geração.")
