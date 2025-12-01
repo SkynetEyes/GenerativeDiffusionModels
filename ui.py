@@ -210,7 +210,7 @@ def styles_ui():
             st.session_state.selected_style = label
             st.rerun()
 
-    for i, style_name in enumerate(['Yarn', 'Rembrandt', 'Van Gogh']):
+    for i, style_name in enumerate(['Yarn', 'Rembrandt portrait','Rembrandt barroco', 'Van Gogh portrait', 'Van Gogh style']):
         render_button(style_name, cols[i % 3], f"style_{i}")
 
     return st.session_state.selected_style
@@ -280,7 +280,7 @@ def preprocess_images(ref_image, selected_controls):
 def generate_image(prompt: str, cond_images: List[np.ndarray], selected_controls: List[str], seed: int = 123):
     # Adiciona sufixo de estilo ao prompt conforme seleção
     style_suffixes = {
-        'Yarn': ', yarn style.',
+        'Yarn': ', yarn art style.',
         'Rembrandt portrait': ', artstyle rembrandt.',
         'Rembrandt barroco': ', artstyle rembrandt.',
         'Van Gogh style': ', artstyle vangogh.',
