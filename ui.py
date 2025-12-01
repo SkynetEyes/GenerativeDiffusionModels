@@ -7,9 +7,10 @@ import gc
 import numpy as np
 from PIL import Image
 from diffusers import StableDiffusionXLAdapterPipeline, T2IAdapter, EulerAncestralDiscreteScheduler, AutoencoderKL
-from controlnet_aux import CannyDetector, OpenposeDetector, ZoeDetector, LineartDetector
+from controlnet_aux import CannyDetector, OpenposeDetector, MidasDetector, PidiNetDetector, LineartDetector
 from typing import List, Dict, Any
 import os
+
 
 # ---------------- CONFIG ----------------
 CKPT_ID = "stabilityai/stable-diffusion-xl-base-1.0"
@@ -32,6 +33,22 @@ ADAPTER_TYPES = {
         "model": "TencentARC/t2i-adapter-canny-sdxl-1.0",
         "pre_factory": lambda: CannyDetector(),
     },
+    "Depth": {
+        "model": "TencentARC/t2i-adapter-depth-midas-sdxl-1.0",
+        "pre_factory": lambda: (MidasDetector.from_pretrained("lllyasviel/Annotators")),
+    },
+    "OpenPose":{
+        "model": "TencentARC/t2i-adapter-openpose-sdxl-1.0",
+        "pre_factory": lambda: OpenposeDetector.from_pretrained("lllyasviel/Annotators"),
+    },
+    "Sketch":{
+        "model": "TencentARC/t2i-adapter-sketch-sdxl-1.0",
+        "pre_factory": lambda: PidiNetDetector.from_pretrained("lllyasviel/Annotators"),
+    },
+    'Lineart': {
+        "model": "TencentARC/t2i-adapter-lineart-sdxl-1.0",
+        "pre_factory": lambda: LineartDetector.from_pretrained("lllyasviel/Annotators"),
+    }
     
 }
 
