@@ -68,7 +68,6 @@ if "preprocessors" not in st.session_state:
 
 # ----------------- HELPERS: carregamento cacheado das pipelines -----------------
 
-@st.cache_resource(show_spinner=False)
 def load_adapter_models(adapter_list: List[str], torch_dtype=torch.float16):
     """
     Carrega modelos T2I-Adapter para a lista de nomes (adapter_list).
@@ -110,7 +109,7 @@ def load_pipeline_with_adapter(base_model: str, adapter_list: List[str], torch_d
                 torch_dtype=torch.float16
             ).to(DEVICE)
     model_id = base_model
-    vae = AutoencoderKL.from_pretrained("madebyollin/sdxl-vae-fp16-fix", torch_dtype=torch.float16)
+    vae = AutoencoderKL.from_pretrained("madebyollin/sdxl-vae-fp16-fix", torch_dtype=torch.float16, quant_config=quant_config)
     scheduler = EulerAncestralDiscreteScheduler.from_pretrained(model_id, subfolder="scheduler")
     unet = UNet2DConditionModel.from_pretrained(
         model_id,
@@ -128,6 +127,7 @@ def load_pipeline_with_adapter(base_model: str, adapter_list: List[str], torch_d
         variant="fp16",
         safety_checker=None,
     ).to(DEVICE)
+    pipe.enable_model_cpu_offload()
     pipe.enable_xformers_memory_efficient_attention()
     return pipe
 
@@ -231,6 +231,13 @@ def styles_ui():
 
     return st.session_state.selected_style
 
+def size_selector_ui():
+    st.markdown("---")
+    st.markdown("### Tamanho da Imagem")
+    size_options = [256, 512, 768, 1024]
+    selected_size = st.selectbox("Selecione o tamanho da imagem gerada:", size_options, index=1)
+    return selected_size
+
 # ----------------- Preprocess images (lazy detectors) -----------------
 def get_preprocessor(name: str):
     """Retorna (e cria se necessario) o preprocessor para 'name' e cacheia em session_state."""
@@ -293,7 +300,7 @@ def preprocess_images(ref_image, selected_controls):
 
     return outputs
 # ----------------- Geração única (pipeline cacheada por lista de controlnets) -----------------
-def generate_image(prompt: str, cond_images: List[np.ndarray], selected_controls: List[str], seed: int = 123):
+def generate_image(prompt: str, cond_images: List[np.ndarray], selected_controls: List[str], selected_size: int, seed: int = 123):
     # Adiciona sufixo de estilo ao prompt conforme seleção
     style_suffixes = {
         'Yarn': ', yarn art style.',
@@ -350,17 +357,18 @@ def generate_image(prompt: str, cond_images: List[np.ndarray], selected_controls
     print(selected_controls)
     # Executa
     # image_arg já é PIL.Image, não redefinir para numpy
-    result = pipe(
-        prompt=prompt,
-        image=image_arg,
-        height=512,
-        width=512,
-        num_inference_steps=30,
-        guidance_scale=7.5,
-        adapter_conditioning_scale=0.8,
-        adapter_conditioning_factor=1,
-        generator=generator,
-    )
+    with torch.no_grad():
+        result = pipe(
+            prompt=prompt,
+            image=image_arg,
+            height=selected_size,
+            width=selected_size,
+            num_inference_steps=30,
+            guidance_scale=7.5,
+            adapter_conditioning_scale=0.8,
+            adapter_conditioning_factor=1,
+            generator=generator,
+        )
     # resultado é um objeto PipelineOutput; images disponível em .images
     out_img = result.images[0]
 
@@ -389,6 +397,9 @@ adapter_input_ui()
 
 # Styles
 _ = styles_ui()
+
+# Render size selector once in main layout
+selected_size = size_selector_ui()
 
 st.markdown("---")
 st.markdown("### Prompt")
@@ -422,8 +433,8 @@ if st.button("Gerar imagem", type="primary"):
 
     with st.spinner("Gerando imagem (isso usa GPU/CPU e pode levar alguns segundos)..."):
         try:
-            final = generate_image(prompt, cond_images, list(st.session_state.selected_controls), seed=0)
-            st.image(final, caption="Imagem Final", width=512)
+            final = generate_image(prompt, cond_images, list(st.session_state.selected_controls), selected_size)
+            st.image(final, caption="Imagem Final", width=selected_size)
             gc.collect()
             torch.cuda.empty_cache()
         except Exception as e:
