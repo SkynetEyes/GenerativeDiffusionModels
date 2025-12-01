@@ -88,7 +88,6 @@ def load_adapter_models(adapter_list: List[str], torch_dtype=torch.float16):
     return adapters
 
 
-@st.cache_resource(show_spinner=False)
 def load_pipeline_with_adapter(base_model: str, adapter_list: List[str], torch_dtype=torch.float16):
     # Configuração de quantização para o UNet
     quant_config = BitsAndBytesConfig(
@@ -372,8 +371,9 @@ def generate_image(prompt: str, cond_images: List[np.ndarray], selected_controls
             torch.cuda.empty_cache()
     except Exception:
         pass
+    del pipe
     gc.collect()
-
+    torch.cuda.empty_cache()
     return out_img
 
 # ----------------- LAYOUT PRINCIPAL -----------------
@@ -424,6 +424,8 @@ if st.button("Gerar imagem", type="primary"):
         try:
             final = generate_image(prompt, cond_images, list(st.session_state.selected_controls), seed=0)
             st.image(final, caption="Imagem Final", width=512)
+            gc.collect()
+            torch.cuda.empty_cache()
         except Exception as e:
             st.error(f"Erro durante a geração: {e}")
             # tenta liberar memória
