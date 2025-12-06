@@ -1,6 +1,3 @@
-# Requirements for compute_embeddings.py and train.py
-# NOTE: torch installation often depends on your CUDA / CPU environment.
-# For correct torch + torchvision wheel, prefer installing from https://pytorch.org/get-started/locally
 
 torch>=2.0.0
 transformers>=4.35.0
@@ -19,12 +16,12 @@ pillow>=9.0.0
 torchvision>=0.15.0
 wandb>=0.15.0
 safetensors>=0.3.0
-controlnet_aux==0.0.10
-MarkupSafe==3.0.3
-matplotlib==3.10.7
-matplotlib-inline==0.2.1
-opencv-python-headless==4.12.0.88
-streamlit==1.51.0
-streamlit-drawable-canvas==0.9.3
-torch==2.9.1
-mediapipe>=0.10.21
+controlnet_aux>=0.0.10
+MarkupSafe>=3.0.3
+matplotlib>=3.10.7
+matplotlib-inline>=0.2.1
+opencv-python-headless>=4.12.0.88
+streamlit>=1.51.0
+streamlit-drawable-canvas>=0.9.3
+torch>=2.9.1
+# mediapipe>=0.10.21
